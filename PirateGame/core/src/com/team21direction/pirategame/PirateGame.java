@@ -1,31 +1,47 @@
 package com.team21direction.pirategame;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
+import com.team21direction.pirategame.screens.TitleScreen;
 
-public class PirateGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
+public class PirateGame extends Game implements ApplicationListener {
+	/* Constants */
+	public final String TITLE = "Pirate Game!";
+	public final int WORLD_WIDTH = 800;
+	public final int WORLD_HEIGHT = 480;
+
+	/* Screens */
+	private TitleScreen titleScreen;
+
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		titleScreen = new TitleScreen(this);
+
+		this.setScreen(titleScreen);
 	}
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(1, 0, 0, 1);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		super.render();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+	}
+
+	@Override
+	public void pause() {
+		super.pause();
+	}
+
+	@Override
+	public void resume() {
+		super.resume();
 	}
 	
 	@Override
 	public void dispose () {
-		batch.dispose();
-		img.dispose();
+		super.dispose();
 	}
 }
