@@ -55,6 +55,6 @@ public class College extends Actor {
 
     public void draw(SpriteBatch batch, float parentAlpha) {
         batch.draw(collegeBase, 0, 0);
-        batch.draw(collegeFlag, 0, 0);
+        batch.draw(collegeFlag, (float)((collegeBase.getWidth() / 2) - (collegeFlag.getWidth() / 2)), collegeBase.getHeight());
     }
 }
