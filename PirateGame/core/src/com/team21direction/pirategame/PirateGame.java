@@ -2,6 +2,7 @@ package com.team21direction.pirategame;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
+import com.team21direction.pirategame.screens.MainScreen;
 import com.team21direction.pirategame.screens.TitleScreen;
 
 public class PirateGame extends Game implements ApplicationListener {
@@ -11,11 +12,13 @@ public class PirateGame extends Game implements ApplicationListener {
 	public final int WORLD_HEIGHT = 480;
 
 	/* Screens */
-	private TitleScreen titleScreen;
+	public TitleScreen titleScreen;
+	public MainScreen mainScreen;
 
 	@Override
 	public void create () {
 		titleScreen = new TitleScreen(this);
+		mainScreen = new MainScreen(this);
 
 		this.setScreen(titleScreen);
 	}

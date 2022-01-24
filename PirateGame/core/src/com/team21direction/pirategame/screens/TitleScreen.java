@@ -65,9 +65,7 @@ public class TitleScreen implements Screen {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Play button pressed.");
-                // TODO: game screen...
-                // game.setScreen(new PlayScreen());
+                game.setScreen(game.mainScreen);
             }
         });
 
