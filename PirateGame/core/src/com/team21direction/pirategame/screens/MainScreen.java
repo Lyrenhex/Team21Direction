@@ -61,8 +61,8 @@ public class MainScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0, 0.6f, 1, 1);
         batch.begin();
-        batch.draw(texture, 50, 50);
-
+        // TODO: draw stuff
+        batch.end();
     }
 
     @Override
