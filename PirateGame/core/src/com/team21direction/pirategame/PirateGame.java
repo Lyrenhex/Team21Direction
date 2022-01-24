@@ -12,17 +12,22 @@ import com.team21direction.pirategame.screens.TitleScreen;
 
 public class PirateGame extends Game implements ApplicationListener {
 	/* Constants */
-	public final String TITLE = "Pirate Game!";
-	public final int WORLD_WIDTH = 800;
-	public final int WORLD_HEIGHT = 480;
+	public final static String TITLE = "Pirate Game!";
+	public final static int WORLD_WIDTH = 800;
+	public final static int WORLD_HEIGHT = 480;
+	public final static int SHIPS_PER_COLLEGE = 5;
 
 	/* Screens */
 	public TitleScreen titleScreen;
 	public MainScreen mainScreen;
+
 	SpriteBatch batch;
     Texture img;
     OrthographicCamera camera;
-	
+
+	/**
+	 * create() is called on game start. Load the game screens and display the title screen first.
+	 */
 	@Override
 	public void create () {
 		titleScreen = new TitleScreen(this);
@@ -71,10 +76,10 @@ public class PirateGame extends Game implements ApplicationListener {
 	}
 	
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-    float x = Gdx.input.getDeltaX();
-    float y = Gdx.input.getDeltaY();
+		float x = Gdx.input.getDeltaX();
+		float y = Gdx.input.getDeltaY();
 
-    camera.translate(-x,y);
-    return true;
-}
+		camera.translate(-x,y);
+		return true;
+	}
 }

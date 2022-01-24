@@ -1,31 +1,30 @@
 package com.team21direction.pirategame.screens;
 
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.team21direction.pirategame.PirateGame;
+import com.team21direction.pirategame.actors.College;
+import com.team21direction.pirategame.actors.Ship;
 
 public class MainScreen implements Screen {
 
     private Sprite sprite;
-    private SpriteBatch batch;
+    private Batch batch;
     private Texture texture;
 
-    private PirateGame game;
+    private Game game;
     protected Stage stage;
     private Viewport viewport;
     protected Skin skin;
@@ -33,7 +32,11 @@ public class MainScreen implements Screen {
 
     private OrthographicCamera camera;
 
-    public MainScreen(PirateGame game) {
+    private College[] colleges;
+    private Ship[] ships;
+    private Ship player;
+
+    public MainScreen(Game game) {
         this.game = game;
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
@@ -42,27 +45,44 @@ public class MainScreen implements Screen {
 
         batch = new SpriteBatch();
 
-        viewport = new FitViewport(game.WORLD_WIDTH, game.WORLD_HEIGHT, camera);
+        viewport = new FitViewport(PirateGame.WORLD_WIDTH, PirateGame.WORLD_HEIGHT, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
 
         stage = new Stage(viewport, batch);
+
+        colleges = new College[] {
+                new College("Derwent"),
+                new College("Langwith"),
+                new College("Constantine"),
+                new College("Halifax"),
+        };
+        ships = new Ship[PirateGame.SHIPS_PER_COLLEGE * colleges.length];
+        for (int i = 0; i < colleges.length; i++) {
+            colleges[i].setPosition((int)(Math.random() * PirateGame.WORLD_WIDTH), (int)(Math.random() * PirateGame.WORLD_HEIGHT));
+            stage.addActor(colleges[i]);
+            for (int j = 0; j < PirateGame.SHIPS_PER_COLLEGE; j++) {
+                ships[i + j] = new Ship(colleges[i]);
+                ships[i + j].setPosition((int)(Math.random() * PirateGame.WORLD_WIDTH), (int)(Math.random() * PirateGame.WORLD_HEIGHT));
+                stage.addActor(ships[i + j]);
+            }
+        }
+        player = new Ship();
     }
 
     @Override
     public void show() {
-        // TODO Auto-generated method stub
-        
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0.6f, 1, 1);
-        batch.begin();
-        // TODO: draw stuff
-        batch.end();
+        camera.update();
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.team21direction.pirategame.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class College extends Actor {
@@ -11,8 +11,10 @@ public class College extends Actor {
     private int health = 100;
     public static int damage = 10;
 
-    private final Texture collegeBase;
-    private final Texture collegeFlag;
+    private final Texture[] collegeBases;
+
+    private float x = 0.0f;
+    private float y = 0.0f;
 
     /**
      * Constructs a new College with the given name.
@@ -22,8 +24,11 @@ public class College extends Actor {
      */
     public College(String name) {
         this.name = name;
-        collegeBase = new Texture(Gdx.files.internal("collegeBase.png"));
-        collegeFlag = new Texture(Gdx.files.internal("collegeFlag" + this.name + ".png"));
+        collegeBases = new Texture[] {
+                new Texture(Gdx.files.internal("college-" + this.name + "-defeated.png")),
+                new Texture(Gdx.files.internal("college-" + this.name + "-halfHealth.png")),
+                new Texture(Gdx.files.internal("college-" + this.name + "-fullHealth.png")),
+        };
     }
 
     /**
@@ -53,8 +58,12 @@ public class College extends Actor {
         return damage;
     }
 
-    public void draw(SpriteBatch batch, float parentAlpha) {
-        batch.draw(collegeBase, 0, 0);
-        batch.draw(collegeFlag, (float)((collegeBase.getWidth() / 2) - (collegeFlag.getWidth() / 2)), collegeBase.getHeight());
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void draw(Batch batch, float parentAlpha) {
+        if (isActive) batch.draw(collegeBases[Math.min(health / 33, 2)], x, y);
     }
 }

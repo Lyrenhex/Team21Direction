@@ -27,6 +27,10 @@ public class TitleScreen implements Screen {
     private OrthographicCamera camera;
     private SpriteBatch batch;
 
+    /**
+     * TitleScreen is the Screen for the main menu.
+     * @param game the PirateGame object to allow this screen to trigger a screen change when the play button is pressed.
+     */
     public TitleScreen(PirateGame game) {
         this.game = game;
         skin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -36,7 +40,7 @@ public class TitleScreen implements Screen {
 
         batch = new SpriteBatch();
 
-        viewport = new FitViewport(game.WORLD_WIDTH, game.WORLD_HEIGHT, camera);
+        viewport = new FitViewport(PirateGame.WORLD_WIDTH, PirateGame.WORLD_HEIGHT, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -45,6 +49,9 @@ public class TitleScreen implements Screen {
         stage = new Stage(viewport, batch);
     }
 
+    /**
+     * show() is called when the screen becomes visible; use this time to set up the menu layout.
+     */
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
@@ -53,7 +60,7 @@ public class TitleScreen implements Screen {
         uiTable.setFillParent(true);
         uiTable.top();
 
-        Label title = new Label(game.TITLE, skin);
+        Label title = new Label(PirateGame.TITLE, skin);
 
         uiTable.add(title);
 
