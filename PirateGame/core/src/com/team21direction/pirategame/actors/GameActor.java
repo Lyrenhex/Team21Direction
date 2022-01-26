@@ -99,4 +99,13 @@ public class GameActor extends Actor {
         this.y += y;
     }
 
+    /**
+     * Returns
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean collision(float x, float y) {
+
+    }
 }
