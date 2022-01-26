@@ -9,9 +9,10 @@ public class College extends Actor {
     private final String name;
     private boolean isActive = true;
     private int health = 100;
-    public static int damage = 10;
+    private static int damage = 10;
 
     private final Texture[] collegeBases;
+    private Texture collegeBase;
 
     private float x = 0.0f;
     private float y = 0.0f;
@@ -25,10 +26,14 @@ public class College extends Actor {
     public College(String name) {
         this.name = name;
         collegeBases = new Texture[] {
-                new Texture(Gdx.files.internal("college-" + this.name + "-defeated.png")),
-                new Texture(Gdx.files.internal("college-" + this.name + "-halfHealth.png")),
-                new Texture(Gdx.files.internal("college-" + this.name + "-fullHealth.png")),
+                // new Texture(Gdx.files.internal(this.name + "-college-defeated.png")),
+                // new Texture(Gdx.files.internal(this.name + "-college-halfhealth.png")),
+                // TODO: correct these textures once the halfhealth/defeated variants complete
+                new Texture(Gdx.files.internal(this.name + "-college-fullhealth.png")),
+                new Texture(Gdx.files.internal(this.name + "-college-fullhealth.png")),
+                new Texture(Gdx.files.internal(this.name + "-college-fullhealth.png")),
         };
+        collegeBase = collegeBases[2];
     }
 
     /**
@@ -47,6 +52,9 @@ public class College extends Actor {
     public boolean attack(int damage) {
         this.health -= damage;
         isActive = this.health > 0;
+        if (!isActive) collegeBase = collegeBases[0];
+        else if (this.health > (this.health / 2)) collegeBase = collegeBases[1];
+        else collegeBase = collegeBases[2];
         return isActive;
     }
 
@@ -58,12 +66,20 @@ public class College extends Actor {
         return damage;
     }
 
+    public void increaseDamage(int delta) {
+        damage += delta;
+    }
+
+    public void decreaseDamage(int delta) {
+        damage -= delta;
+    }
+
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
     public void draw(Batch batch, float parentAlpha) {
-        if (isActive) batch.draw(collegeBases[Math.min(health / 33, 2)], x, y);
+        if (isActive) batch.draw(collegeBase, x, y);
     }
 }

@@ -81,6 +81,7 @@ public class MainScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0, 0.6f, 1, 1);
         camera.update();
+        batch.setProjectionMatrix(camera.combined);
         stage.act(delta);
         stage.draw();
     }
@@ -115,6 +116,14 @@ public class MainScreen implements Screen {
         batch.dispose();
         skin.dispose();
         atlas.dispose();
+    }
+
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        float x = Gdx.input.getDeltaX();
+        float y = Gdx.input.getDeltaY();
+
+        camera.translate(-x,y);
+        return true;
     }
     
 }

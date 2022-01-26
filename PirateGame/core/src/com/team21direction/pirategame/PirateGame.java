@@ -21,10 +21,6 @@ public class PirateGame extends Game implements ApplicationListener {
 	public TitleScreen titleScreen;
 	public MainScreen mainScreen;
 
-	SpriteBatch batch;
-    Texture img;
-    OrthographicCamera camera;
-
 	/**
 	 * create() is called on game start. Load the game screens and display the title screen first.
 	 */
@@ -32,26 +28,12 @@ public class PirateGame extends Game implements ApplicationListener {
 	public void create () {
 		titleScreen = new TitleScreen(this);
 		mainScreen = new MainScreen(this);
-		batch = new SpriteBatch();
-        img = new Texture("rsH6n.jpg");
-        camera = new OrthographicCamera(1280, 720);
-        camera.update();
 
 		this.setScreen(titleScreen);
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        camera.update();
-
-        batch.setProjectionMatrix(camera.combined);
-
-        batch.begin();
-        batch.draw(img, 0, 0);
-        batch.end();
 		super.render();
 	}
 
@@ -73,13 +55,5 @@ public class PirateGame extends Game implements ApplicationListener {
 	@Override
 	public void dispose () {
 		super.dispose();
-	}
-	
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		float x = Gdx.input.getDeltaX();
-		float y = Gdx.input.getDeltaY();
-
-		camera.translate(-x,y);
-		return true;
 	}
 }
