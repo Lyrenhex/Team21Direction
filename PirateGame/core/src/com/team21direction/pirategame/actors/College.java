@@ -3,12 +3,13 @@ package com.team21direction.pirategame.actors;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class College extends GameActor {
     private final String name;
 
-    private final Texture[] collegeBases;
-    private Texture collegeBase;
+    public final Texture[] collegeBases;
+    private Sprite collegeBase;
 
     /**
      * Constructs a new College with the given name.
@@ -20,11 +21,13 @@ public class College extends GameActor {
         super();
         this.name = name;
         collegeBases = new Texture[] {
-                new Texture(Gdx.files.internal("college-defeated-0.png")),
-                new Texture(Gdx.files.internal("college-halfhealth.png")),
-                new Texture(Gdx.files.internal(this.name + "-college-fullhealth.png")),
+                //new Texture(Gdx.files.internal("colleges/college-defeated-0.png")),
+                //new Texture(Gdx.files.internal("colleges/college-halfhealth.png")),
+                new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
+                new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
+                new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
         };
-        collegeBase = collegeBases[2];
+        collegeBase = new Sprite(collegeBases[2]);
     }
 
     /**
@@ -42,9 +45,9 @@ public class College extends GameActor {
      */
     @Override
     public boolean attack(int damage) {
-        if (!super.attack(damage)) collegeBase = collegeBases[0];
-        else if (this.getHealth() > (this.getMaxHealth() / 2)) collegeBase = collegeBases[1];
-        else collegeBase = collegeBases[2];
+        if (!super.attack(damage)) collegeBase = new Sprite(collegeBases[0]);
+        else if (this.getHealth() > (this.getMaxHealth() / 2)) collegeBase = new Sprite(collegeBases[1]);
+        else collegeBase = new Sprite(collegeBases[2]);
         return isActive();
     }
 

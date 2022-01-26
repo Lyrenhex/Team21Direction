@@ -3,6 +3,7 @@ package com.team21direction.pirategame.actors;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.team21direction.pirategame.actions.MoveRandomly;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ public class Ship extends GameActor {
     public College parentCollege; // The College this ship is allied with.
 
     private final HashMap<Direction, Texture> textures;
+    private Sprite texture;
 
     /**
      * Construct a new Ship which is a member of the supplied parentCollege.
@@ -32,6 +34,7 @@ public class Ship extends GameActor {
         textures.put(Direction.DownLeft, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-downleft.png")));
         textures.put(Direction.DownRight, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-downright.png")));
 
+        texture = new Sprite(textures.get(direction));
         this.addAction(new MoveRandomly());
     }
 
@@ -41,6 +44,7 @@ public class Ship extends GameActor {
      */
     public void setDirection(Direction direction) {
         this.direction = direction;
+        texture = new Sprite(textures.get(direction));
     }
 
     /**
@@ -51,7 +55,7 @@ public class Ship extends GameActor {
      */
     public void draw(Batch batch, float parentAlpha) {
         if (isActive()) {
-            batch.draw(textures.get(direction), getX(), getY());
+            batch.draw(texture, getX(), getY());
         }
     }
 }

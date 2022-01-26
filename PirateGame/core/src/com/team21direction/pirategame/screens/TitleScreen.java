@@ -38,15 +38,13 @@ public class TitleScreen implements Screen {
 
         camera = new OrthographicCamera();
 
-        batch = new SpriteBatch();
-
         viewport = new FitViewport(PirateGame.WORLD_WIDTH, PirateGame.WORLD_HEIGHT, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
 
-        stage = new Stage(viewport, batch);
+        stage = new Stage(viewport);
     }
 
     /**

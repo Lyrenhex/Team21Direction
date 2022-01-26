@@ -3,6 +3,7 @@ package com.team21direction.pirategame.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -79,9 +80,12 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0, 0.6f, 1, 1);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+        // fix for some PNG transparency quirks...
+        batch.enableBlending();
+        ScreenUtils.clear(0, 0.6f, 1, 1);
+        Gdx.gl.glClear(GL20.GL_ALPHA_BITS);
         stage.act(delta);
         stage.draw();
     }

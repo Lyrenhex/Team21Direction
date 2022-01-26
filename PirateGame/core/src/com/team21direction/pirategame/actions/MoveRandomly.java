@@ -14,9 +14,11 @@ public class MoveRandomly extends Action {
      */
     @Override
     public boolean act(float delta) {
-        // TODO: improve movement logic
-        totalTime += delta;
-        ((Ship)actor).move((int)(Math.random() * 5), (int)(Math.random() * 5));
+        if (false) {
+            // TODO: improve movement logic
+            totalTime += delta;
+            ((Ship)actor).move((int)(Math.random() * 5), (int)(Math.random() * 5));
+        }
         return !((Ship)actor).isActive(); // only 'complete' the action when the Ship is killed.
     }
 }
