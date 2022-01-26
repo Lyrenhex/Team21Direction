@@ -59,7 +59,8 @@ public class Ship extends Actor {
 
     public boolean attack(int damage) {
         this.health -= damage;
-        return this.health <= 0;
+        isActive = this.health > 0;
+        return isActive;
     }
 
     public int defend() {
