@@ -3,25 +3,17 @@ package com.team21direction.pirategame.actors;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.team21direction.pirategame.actions.MoveRandomly;
 
 import java.util.HashMap;
 
-public class Ship extends Actor {
+public class Ship extends GameActor {
     public enum Direction{Up, UpLeft, UpRight, Left, Right, Down, DownLeft, DownRight}
     private Direction direction = Direction.Right;
 
-    private boolean isActive = true;
-
-    private int health = 100;
-    public static int damage = 10;
     public College parentCollege; // The College this ship is allied with.
 
     private final HashMap<Direction, Texture> textures;
-
-    private float x = 0.0f;
-    private float y = 0.0f;
 
     /**
      * Construct a new Ship which is a member of the supplied parentCollege.
@@ -43,32 +35,23 @@ public class Ship extends Actor {
         this.addAction(new MoveRandomly());
     }
 
-    public boolean attack(int damage) {
-        this.health -= damage;
-        isActive = this.health > 0;
-        return isActive;
-    }
-
-    public int defend() {
-        return damage;
-    }
-
+    /**
+     * Set the direction the ship is facing.
+     * @param direction the new direction the ship is facing.
+     */
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
 
-    public void setPosition(float x, float y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
+    /**
+     * Draw the ship on the screen.
+     * This should be called once per frame by `Stage.draw()`.
+     * @param batch the Batch to draw the ship as part of for GPU optimisation.
+     * @param parentAlpha the parent Actor's alpha value for alpha blending.
+     */
     public void draw(Batch batch, float parentAlpha) {
-        if (isActive) {
-            batch.draw(textures.get(direction), x, y);
+        if (isActive()) {
+            batch.draw(textures.get(direction), getX(), getY());
         }
     }
 }
