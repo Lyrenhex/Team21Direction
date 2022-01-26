@@ -55,7 +55,7 @@ public class Ship extends GameActor {
      */
     public void draw(Batch batch, float parentAlpha) {
         if (isActive()) {
-            batch.draw(texture, getX(), getY());
+            batch.draw(texture, getX() - (texture.getWidth() / 2), getY() - (texture.getHeight() / 2));
         }
     }
 }
