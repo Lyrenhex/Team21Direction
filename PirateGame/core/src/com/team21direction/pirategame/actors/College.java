@@ -20,11 +20,8 @@ public class College extends GameActor {
         super();
         this.name = name;
         collegeBases = new Texture[] {
-                // new Texture(Gdx.files.internal(this.name + "-college-defeated.png")),
-                // new Texture(Gdx.files.internal(this.name + "-college-halfhealth.png")),
-                // TODO: correct these textures once the halfhealth/defeated variants complete
-                new Texture(Gdx.files.internal(this.name + "-college-fullhealth.png")),
-                new Texture(Gdx.files.internal(this.name + "-college-fullhealth.png")),
+                new Texture(Gdx.files.internal("college-defeated-0.png")),
+                new Texture(Gdx.files.internal("college-halfhealth.png")),
                 new Texture(Gdx.files.internal(this.name + "-college-fullhealth.png")),
         };
         collegeBase = collegeBases[2];
@@ -58,6 +55,6 @@ public class College extends GameActor {
      * @param parentAlpha the parent Actor's alpha value for alpha blending.
      */
     public void draw(Batch batch, float parentAlpha) {
-        if (isActive()) batch.draw(collegeBase, getX(), getY());
+        batch.draw(collegeBase, getX(), getY());
     }
 }
