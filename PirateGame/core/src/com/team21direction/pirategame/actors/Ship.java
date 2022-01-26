@@ -30,31 +30,16 @@ public class Ship extends Actor {
     public Ship(College parentCollege) {
         this.parentCollege = parentCollege;
         textures = new HashMap<>();
-        if (parentCollege == null) {
-            textures.put(Direction.Up, new Texture(Gdx.files.internal("ship-up.png")));
-            textures.put(Direction.UpLeft, new Texture(Gdx.files.internal("ship-upleft.png")));
-            textures.put(Direction.UpRight, new Texture(Gdx.files.internal("ship-upright.png")));
-            textures.put(Direction.Left, new Texture(Gdx.files.internal("ship-left.png")));
-            textures.put(Direction.Right, new Texture(Gdx.files.internal("ship-right.png")));
-            textures.put(Direction.Down, new Texture(Gdx.files.internal("ship-down.png")));
-            textures.put(Direction.DownLeft, new Texture(Gdx.files.internal("ship-downleft.png")));
-            textures.put(Direction.DownRight, new Texture(Gdx.files.internal("ship-downright.png")));
-        } else {
-            textures.put(Direction.Up, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-up.png")));
-            textures.put(Direction.UpLeft, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-upleft.png")));
-            textures.put(Direction.UpRight, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-upright.png")));
-            textures.put(Direction.Left, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-left.png")));
-            textures.put(Direction.Right, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-right.png")));
-            textures.put(Direction.Down, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-down.png")));
-            textures.put(Direction.DownLeft, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-downleft.png")));
-            textures.put(Direction.DownRight, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-downright.png")));
-        }
+        textures.put(Direction.Up, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-up.png")));
+        textures.put(Direction.UpLeft, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-upleft.png")));
+        textures.put(Direction.UpRight, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-upright.png")));
+        textures.put(Direction.Left, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-left.png")));
+        textures.put(Direction.Right, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-right.png")));
+        textures.put(Direction.Down, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-down.png")));
+        textures.put(Direction.DownLeft, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-downleft.png")));
+        textures.put(Direction.DownRight, new Texture(Gdx.files.internal(parentCollege.getCollegeName() + "-ship-downright.png")));
 
         this.addAction(new MoveRandomly());
-    }
-
-    public Ship() {
-        this(null);
     }
 
     public boolean attack(int damage) {
