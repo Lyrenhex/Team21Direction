@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.team21direction.pirategame.actions.WhiteFlagRoutine;
 import com.team21direction.pirategame.screens.MainScreen;
 
 public class College extends GameActor {
-    private final String name;
+    private String name;
 
-    public final Texture[] collegeBases;
-    private Sprite collegeBase;
+    private final Texture[] collegeBases;
+    public Sprite collegeBase;
 
     /**
      * Constructs a new College with the given name.
@@ -38,6 +39,11 @@ public class College extends GameActor {
         return this.name;
     }
 
+    public void setCollegeName(String name) {
+        this.name = name;
+        collegeBase = new Sprite(new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")));
+    }
+
     /**
      * Perform an attack on the college dealing some damage.
      * @param damage the amount of damage to deal
@@ -45,9 +51,14 @@ public class College extends GameActor {
      */
     @Override
     public boolean attack(int damage) {
-        if (!super.attack(damage)) collegeBase = new Sprite(collegeBases[0]);
-        else if (this.getHealth() < (this.getMaxHealth() / 2)) collegeBase = new Sprite(collegeBases[1]);
-        else collegeBase = new Sprite(collegeBases[2]);
+        if (isActive()) {
+            if (!super.attack(damage)) {
+                collegeBase = new Sprite(collegeBases[0]);
+                this.addAction(new WhiteFlagRoutine());
+            }
+            else if (this.getHealth() < (this.getMaxHealth() / 2)) collegeBase = new Sprite(collegeBases[1]);
+            else collegeBase = new Sprite(collegeBases[2]);
+        }
         return isActive();
     }
 

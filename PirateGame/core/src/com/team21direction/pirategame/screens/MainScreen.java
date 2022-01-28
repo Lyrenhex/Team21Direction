@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -35,7 +34,7 @@ public class MainScreen implements Screen {
 
     private final College[] colleges;
     private final Ship[] ships;
-    private final Ship player;
+    public final Ship player;
     private final Vector2 position = new Vector2();
     private final Vector2 cannonball_velocity = new Vector2();
     private final Vector2 movement = new Vector2();
