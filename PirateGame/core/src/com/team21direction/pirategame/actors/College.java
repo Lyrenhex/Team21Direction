@@ -2,17 +2,14 @@ package com.team21direction.pirategame.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class College extends Actor {
+public class College extends GameActor {
     private final String name;
-    private boolean isActive = true;
-    private int health = 100;
-    public static int damage = 10;
 
-    private final Texture collegeBase;
-    private final Texture collegeFlag;
+    public final Texture[] collegeBases;
+    private Sprite collegeBase;
 
     /**
      * Constructs a new College with the given name.
@@ -21,9 +18,16 @@ public class College extends Actor {
      * @param name the name of the college.
      */
     public College(String name) {
+        super();
         this.name = name;
-        collegeBase = new Texture(Gdx.files.internal("collegeBase.png"));
-        collegeFlag = new Texture(Gdx.files.internal("collegeFlag" + this.name + ".png"));
+        collegeBases = new Texture[] {
+                //new Texture(Gdx.files.internal("colleges/college-defeated-0.png")),
+                //new Texture(Gdx.files.internal("colleges/college-halfhealth.png")),
+                new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
+                new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
+                new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
+        };
+        collegeBase = new Sprite(collegeBases[2]);
     }
 
     /**
@@ -39,22 +43,21 @@ public class College extends Actor {
      * @param damage the amount of damage to deal
      * @return whether the college remains an active threat.
      */
+    @Override
     public boolean attack(int damage) {
-        this.health -= damage;
-        isActive = this.health > 0;
-        return isActive;
+        if (!super.attack(damage)) collegeBase = new Sprite(collegeBases[0]);
+        else if (this.getHealth() > (this.getMaxHealth() / 2)) collegeBase = new Sprite(collegeBases[1]);
+        else collegeBase = new Sprite(collegeBases[2]);
+        return isActive();
     }
 
     /**
-     * Get the damage the college will do to the player (defence).
-     * @return the damage to apply to the player.
+     * Draw the college on the screen.
+     * This should be called once per frame by `Stage.draw()`.
+     * @param batch the Batch to draw the college as part of for GPU optimisation.
+     * @param parentAlpha the parent Actor's alpha value for alpha blending.
      */
-    public int defend() {
-        return damage;
-    }
-
-    public void draw(SpriteBatch batch, float parentAlpha) {
-        batch.draw(collegeBase, 0, 0);
-        batch.draw(collegeFlag, (float)((collegeBase.getWidth() / 2) - (collegeFlag.getWidth() / 2)), collegeBase.getHeight());
+    public void draw(Batch batch, float parentAlpha) {
+        batch.draw(collegeBase, getX() - (collegeBase.getWidth() / 2), getY() - (collegeBase.getHeight() / 2));
     }
 }
