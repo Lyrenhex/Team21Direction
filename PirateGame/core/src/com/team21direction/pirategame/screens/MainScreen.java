@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.team21direction.pirategame.PirateGame;
 import com.team21direction.pirategame.actors.College;
 import com.team21direction.pirategame.actors.Ship;
+import com.team21direction.pirategame.actors.Pointer;
 
 public class MainScreen implements Screen {
 
@@ -37,6 +38,7 @@ public class MainScreen implements Screen {
     private College[] colleges;
     private Ship[] ships;
     private Ship player;
+    private Pointer pointer;
     private final Vector2 position = new Vector2();
     private final Vector2 velocity = new Vector2();
     private final Vector2 movement = new Vector2();
@@ -143,15 +145,11 @@ public class MainScreen implements Screen {
 
     public void update(float deltaTime) {
         mouse.set(Gdx.input.getX(), camera.viewportHeight - Gdx.input.getY());
-        position.set(player.getX(), player.getY());
+        position.set(pointer.getX(), pointer.getY());
         dir.set(mouse).sub(position).nor();
         velocity.set(dir).scl(speed);
         movement.set(velocity).scl(deltaTime);
-        if (position.dst2(mouse) > movement.len2()){
-            position.add(movement);
-        } else {
             position.set(mouse);
-        }
         player.setX(position.x);
         player.setY(position.y);
     }
