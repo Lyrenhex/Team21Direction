@@ -3,6 +3,7 @@ package com.team21direction.pirategame.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -94,9 +95,11 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        update(Gdx.graphics.getDeltaTime());
+        //update(Gdx.graphics.getDeltaTime());
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
+        update_keyboard();
+
         batch.setProjectionMatrix(camera.combined);
         // fix for some PNG transparency quirks...
         batch.enableBlending();
@@ -138,7 +141,7 @@ public class MainScreen implements Screen {
     }
 
 
-    public void update(float deltaTime) {
+    public void update_mouse(float deltaTime) {
         mouse.set(Gdx.input.getX(), camera.viewportHeight - Gdx.input.getY());
         position.set(pointer.getX(), pointer.getY());
         dir.set(mouse).sub(position).nor();
@@ -159,4 +162,55 @@ public class MainScreen implements Screen {
         return null;
     }
 
+
+    public void update_keyboard() {
+        if(Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.D))){
+            player.move(283, 283);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            player.move(-400, 0);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            player.move(400, 0);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.W)){
+            player.move(0, 400);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            player.move(0, -400);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.W)&& (Gdx.input.isKeyPressed(Input.Keys.A))){
+            player.move(-283, 283);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            player.move(-400, 0);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            player.move(400, 0);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.W)){
+            player.move(0, 400);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            player.move(0, -400);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.S)&& (Gdx.input.isKeyPressed(Input.Keys.D))){
+            player.move(283, -283);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            player.move(-400, 0);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            player.move(400, 0);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.W)){
+            player.move(0, 400);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            player.move(0, -400);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.S)&& (Gdx.input.isKeyPressed(Input.Keys.A))){
+            player.move(-283, -283);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            player.move(-400, 0);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            player.move(400, 0);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.W)){
+            player.move(0, 400);
+        }else if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            player.move(0, -400);
+        }
+
+
+        if(Gdx.input.isKeyPressed(Input.Keys.S)) player.move(0, 400);
+        if(Gdx.input.isKeyPressed(Input.Keys.S)) player.move(0, -400);
+    }
 }
