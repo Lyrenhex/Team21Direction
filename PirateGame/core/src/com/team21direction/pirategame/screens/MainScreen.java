@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.team21direction.pirategame.PirateGame;
+import com.team21direction.pirategame.actors.Cannonball;
 import com.team21direction.pirategame.actors.College;
 import com.team21direction.pirategame.actors.GameActor;
 import com.team21direction.pirategame.actors.Ship;
@@ -35,7 +36,7 @@ public class MainScreen implements Screen {
     private final Ship[] ships;
     private final Ship player;
     private final Vector2 position = new Vector2();
-    private final Vector2 velocity = new Vector2();
+    private final Vector2 cannonball_velocity = new Vector2();
     private final Vector2 movement = new Vector2();
     private final Vector2 mouse = new Vector2();
     private final Vector2 dir = new Vector2();
@@ -137,15 +138,15 @@ public class MainScreen implements Screen {
     }
 
 
-    public void update_mouse(float deltaTime) {
-        mouse.set(Gdx.input.getX(), camera.viewportHeight - Gdx.input.getY());
-        //position.set(pointer.getX(), pointer.getY());
-        dir.set(mouse).sub(position).nor();
-        //velocity.set(dir).scl(speed);
-        movement.set(velocity).scl(deltaTime);
-            position.set(mouse);
-        //pointer.setPosition(position.x, position.y);
-    }
+//    public void update_mouse(float deltaTime) {
+//        mouse.set(Gdx.input.getX(), camera.viewportHeight - Gdx.input.getY());
+//        //position.set(pointer.getX(), pointer.getY());
+//        dir.set(mouse).sub(position).nor();
+//        velocity.set(dir).scl(speed);
+//        movement.set(velocity).scl(deltaTime);
+//            position.set(mouse);
+//        //pointer.setPosition(position.x, position.y);
+//    }
 
     public GameActor getCollision(float x, float y) {
         for (College college : colleges) {
@@ -163,6 +164,7 @@ public class MainScreen implements Screen {
                 return player;
         return null;
     }
+
 
 
     public void update_keyboard() {
@@ -204,6 +206,12 @@ public class MainScreen implements Screen {
         }
 
         player.move(deltaX, deltaY);
+
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            cannonball_velocity.set(deltaX+deltaX*2, deltaY+deltaY*2);
+            Cannonball ball = new Cannonball(this, player.getX(), player.getY(), cannonball_velocity);
+
+        }
 
     }
 }
