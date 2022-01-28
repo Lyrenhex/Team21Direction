@@ -106,6 +106,7 @@ public class GameActor extends Actor {
      * @return
      */
     public boolean collision(float x, float y) {
-
+        // TODO collision
+        return true;
     }
 }
