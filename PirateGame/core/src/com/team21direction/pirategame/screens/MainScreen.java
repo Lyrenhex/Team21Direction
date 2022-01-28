@@ -72,11 +72,22 @@ public class MainScreen implements Screen {
         };
         ships = new Ship[PirateGame.SHIPS_PER_COLLEGE * colleges.length];
         for (int i = 0; i < colleges.length; i++) {
-            colleges[i].setPosition((int)(Math.random() * PirateGame.WORLD_WIDTH), (int)(Math.random() * PirateGame.WORLD_HEIGHT));
+            boolean mustTryAgain;
+            do {
+                colleges[i].move((float)(Math.random() * PirateGame.WORLD_WIDTH) - PirateGame.WORLD_WIDTH / 2.0f, (float)(Math.random() * PirateGame.WORLD_HEIGHT) - PirateGame.WORLD_WIDTH / 2.0f);
+                mustTryAgain = false;
+                for (int j = 0; j < i; j++) {
+                    if (colleges[j].collision(colleges[i].getX(), colleges[i].getY())) {
+                        mustTryAgain = true;
+                        break;
+                    }
+                }
+            } while (mustTryAgain);
+
             stage.addActor(colleges[i]);
             for (int j = 0; j < PirateGame.SHIPS_PER_COLLEGE; j++) {
                 ships[i + j] = new Ship(colleges[i]);
-                ships[i + j].setPosition((int)(Math.random() * PirateGame.WORLD_WIDTH), (int)(Math.random() * PirateGame.WORLD_HEIGHT));
+                ships[i + j].move((float)(Math.random() * PirateGame.WORLD_WIDTH) - PirateGame.WORLD_WIDTH / 2.0f, (float)(Math.random() * PirateGame.WORLD_HEIGHT) - PirateGame.WORLD_WIDTH / 2.0f);
                 stage.addActor(ships[i + j]);
             }
         }
