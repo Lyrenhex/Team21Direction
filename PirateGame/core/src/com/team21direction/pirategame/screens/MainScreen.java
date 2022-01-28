@@ -73,7 +73,8 @@ public class MainScreen implements Screen {
                 stage.addActor(ships[i + j]);
             }
         }
-        player = new Ship(new College("Vanbrugh"));
+        player = new Ship(new College("Vanbrugh"), true);
+        stage.addActor(player);
     }
 
     @Override

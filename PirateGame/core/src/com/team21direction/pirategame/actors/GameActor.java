@@ -1,6 +1,7 @@
 package com.team21direction.pirategame.actors;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.team21direction.pirategame.PirateGame;
 
 public class GameActor extends Actor {
     private boolean isActive = true;
@@ -95,8 +96,8 @@ public class GameActor extends Actor {
      * @param deltaY how far to move the actor along the y-axis (direction determined by sign).
      */
     public void move(float deltaX, float deltaY) {
-        this.x += x;
-        this.y += y;
+        if (this.x + deltaX <= PirateGame.WORLD_WIDTH / 2.0f) this.x += deltaX;
+        if (this.y + deltaY <= PirateGame.WORLD_HEIGHT / 2.0f) this.y += deltaY;
     }
 
     /**
