@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.team21direction.pirategame.PirateGame;
 import com.team21direction.pirategame.actors.College;
+import com.team21direction.pirategame.actors.GameActor;
 import com.team21direction.pirategame.actors.Ship;
 import com.team21direction.pirategame.actors.Pointer;
 
@@ -80,7 +81,10 @@ public class MainScreen implements Screen {
                 stage.addActor(ships[i + j]);
             }
         }
-        player = new Ship(new College("Vanbrugh"));
+        player = new Ship(new College("Vanbrugh"), true);
+        stage.addActor(player);
+        pointer = new Pointer();
+        stage.addActor(pointer);
     }
 
     @Override
@@ -90,9 +94,9 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        update(Gdx.graphics.getDeltaTime());
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
-        update(Gdx.graphics.getDeltaTime());
         batch.setProjectionMatrix(camera.combined);
         // fix for some PNG transparency quirks...
         batch.enableBlending();
@@ -150,8 +154,18 @@ public class MainScreen implements Screen {
         velocity.set(dir).scl(speed);
         movement.set(velocity).scl(deltaTime);
             position.set(mouse);
-        player.setX(position.x);
-        player.setY(position.y);
+        pointer.setPosition(position.x, position.y);
+    }
+
+    public GameActor getCollision(float x, float y) {
+        for (College college : colleges) {
+            if (college.collision(x, y)) return college;
+        }
+        for (Ship ship : ships) {
+            if (ship.collision(x, y)) return ship;
+        }
+        if (player.collision(x, y)) return player;
+        return null;
     }
 
 }
