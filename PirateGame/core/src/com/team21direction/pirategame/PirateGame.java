@@ -8,8 +8,8 @@ import com.team21direction.pirategame.screens.TitleScreen;
 public class PirateGame extends Game implements ApplicationListener {
 	/* Constants */
 	public final static String TITLE = "Pirate Game!";
-	public final static int WORLD_WIDTH = 2500;
-	public final static int WORLD_HEIGHT = 2500;
+	public final static int WORLD_WIDTH = 3000;
+	public final static int WORLD_HEIGHT = 3000;
 	public final static int SHIPS_PER_COLLEGE = 5;
 
 	/* Screens */

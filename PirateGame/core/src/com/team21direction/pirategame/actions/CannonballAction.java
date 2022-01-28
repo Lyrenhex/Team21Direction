@@ -21,9 +21,10 @@ public class CannonballAction extends Action {
         cannonball.move(deltaX, deltaY);
         if (liveTime >= 5.0f) cannonball.live = false;
         GameActor victim = cannonball.screen.getCollision(cannonball.getX(), cannonball.getY());
-        if (victim != null) {
+        if (victim != null && victim != cannonball.attacker) {
             victim.attack(cannonball.getDamage());
             cannonball.live = false;
+            actor.remove();
         }
         return !(cannonball.live); // only 'complete' the action when the cannonball expires / hits something.
     }

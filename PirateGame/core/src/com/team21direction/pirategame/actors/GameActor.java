@@ -101,19 +101,20 @@ public class GameActor extends Actor {
 
     /**
      * Move the actor's location relative to their old position in the game world.
+     *
      * @param deltaX how far to move the actor along the x-axis (direction determined by sign).
      * @param deltaY how far to move the actor along the y-axis (direction determined by sign).
-     * @return whether the movement took place or not (false if OOB or collision).
+     * @return whether the movement took place legitimately or not (false if OOB or collision).
      */
     public boolean move(float deltaX, float deltaY) {
-        this.x += deltaX;
-        this.y += deltaY;
         if (this.x + deltaX >= PirateGame.WORLD_WIDTH / 2.0f
             || this.x + deltaX <= -(PirateGame.WORLD_WIDTH / 2.0f)
             || this.y + deltaY >= PirateGame.WORLD_HEIGHT / 2.0f
             || this.y + deltaY <= -(PirateGame.WORLD_HEIGHT / 2.0f)
-            || screen.getCollision(this.x + deltaX, this.y + deltaY) != null)
+            || screen.getCollision(this.x + deltaX, this.y + deltaY) instanceof College)
             return false;
+        this.x += deltaX;
+        this.y += deltaY;
         return true;
     }
 

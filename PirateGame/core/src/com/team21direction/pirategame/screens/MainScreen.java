@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -50,7 +51,7 @@ public class MainScreen implements Screen {
 
         batch = new SpriteBatch();
 
-        viewport = new FitViewport(PirateGame.WORLD_WIDTH, PirateGame.WORLD_HEIGHT, camera);
+        viewport = new FitViewport(2000, 2000, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -82,6 +83,10 @@ public class MainScreen implements Screen {
             }
         }
         player = new Ship(this, new College(this,"Vanbrugh"), true);
+        boolean success;
+        do {
+            success = player.move((float)(Math.random() * PirateGame.WORLD_WIDTH) - PirateGame.WORLD_WIDTH / 2.0f, (float)(Math.random() * PirateGame.WORLD_HEIGHT) - PirateGame.WORLD_WIDTH / 2.0f);
+        } while (!success);
         stage.addActor(player);
     }
 
@@ -209,8 +214,8 @@ public class MainScreen implements Screen {
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             cannonball_velocity.set(deltaX+deltaX*2, deltaY+deltaY*2);
-            Cannonball ball = new Cannonball(this, player.getX(), player.getY(), cannonball_velocity);
-
+            Cannonball ball = new Cannonball(this, player.getX(), player.getY(), cannonball_velocity, player);
+            stage.addActor(ball);
         }
 
     }

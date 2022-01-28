@@ -14,12 +14,14 @@ public class Cannonball extends GameActor {
     private final Texture texture = new Texture(Gdx.files.internal("cannonball.png"));
     private final Sprite sprite = new Sprite(texture);
 
+    public GameActor attacker;
+
     public boolean live = true;
 
-    public Cannonball(MainScreen screen, float x, float y, Vector2 direction) {
+    public Cannonball(MainScreen screen, float x, float y, Vector2 direction, GameActor attacker) {
         super(screen);
-        this.setX(x);
-        this.setY(y);
+        this.attacker = attacker;
+        this.setPosition(x, y);
         this.direction.set(direction);
         this.addAction(new CannonballAction());
     }

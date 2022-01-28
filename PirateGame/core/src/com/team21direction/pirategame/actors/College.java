@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.team21direction.pirategame.PirateGame;
 import com.team21direction.pirategame.screens.MainScreen;
 
 public class College extends GameActor {
@@ -21,7 +20,7 @@ public class College extends GameActor {
      */
     public College(MainScreen screen, String name) {
         super(screen);
-        this.radius = 200;
+        this.radius = 350;
         this.name = name;
         collegeBases = new Texture[] {
                 //new Texture(Gdx.files.internal("colleges/college-defeated-0.png")),

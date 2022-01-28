@@ -20,7 +20,7 @@ public class MoveRandomly extends Action {
     public boolean act(float delta) {
         movingTime += delta;
         Ship actorShip = (Ship)actor;
-        if (direction == null || movingTime >= 1.0f) {
+        if (direction == null || movingTime >= 1.0f + Math.random()) {
             direction = Ship.Direction.values()[new Random().nextInt(Ship.Direction.values().length)];
             actorShip.setDirection(direction);
             movingTime = 0.0f;
