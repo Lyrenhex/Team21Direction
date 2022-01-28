@@ -42,6 +42,8 @@ public class MainScreen implements Screen {
     private final Vector2 mouse = new Vector2();
     private final Vector2 dir = new Vector2();
 
+    private float timeSinceLastCannon = 0.0f;
+
     public MainScreen(PirateGame game) {
         this.game = game;
         skin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -97,6 +99,8 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        timeSinceLastCannon += delta;
+
         //update(Gdx.graphics.getDeltaTime());
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
@@ -159,11 +163,11 @@ public class MainScreen implements Screen {
                 if (college.collision(x, y))
                     return college;
         }
-        for (Ship ship : ships) {
-            if (ship != null)
-                if (ship.collision(x, y))
-                    return ship;
-        }
+//        for (Ship ship : ships) {
+//            if (ship != null)
+//                if (ship.collision(x, y))
+//                    return ship;
+//        }
         if (player != null)
             if (player.collision(x, y))
                 return player;
@@ -173,8 +177,8 @@ public class MainScreen implements Screen {
 
 
     public void update_keyboard() {
-        float speedl = 3f;
-        float speedd = 2.15f;
+        float speedl = 1f;
+        float speedd = 0.7f;
 
         float deltaX = 0.0f;
         float deltaY = 0.0f;
@@ -212,8 +216,16 @@ public class MainScreen implements Screen {
 
         player.move(deltaX, deltaY);
 
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            cannonball_velocity.set(deltaX+deltaX*2, deltaY+deltaY*2);
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && timeSinceLastCannon >= 0.75f){
+            timeSinceLastCannon = 0.0f;
+            if (player.getDirection() == Ship.Direction.Down) cannonball_velocity.set(0, -speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.DownLeft) cannonball_velocity.set(-speedl+deltaX, -speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.DownRight) cannonball_velocity.set(speedl+deltaX, -speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.UpRight) cannonball_velocity.set(speedl+deltaX, speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.UpLeft) cannonball_velocity.set(-speedl+deltaX, speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.Up) cannonball_velocity.set(0, speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.Left) cannonball_velocity.set(-speedl+deltaX, 0);
+            else if (player.getDirection() == Ship.Direction.Right) cannonball_velocity.set(speedl+deltaX, 0);
             Cannonball ball = new Cannonball(this, player.getX(), player.getY(), cannonball_velocity, player);
             stage.addActor(ball);
         }

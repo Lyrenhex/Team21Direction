@@ -23,10 +23,8 @@ public class College extends GameActor {
         this.radius = 350;
         this.name = name;
         collegeBases = new Texture[] {
-                //new Texture(Gdx.files.internal("colleges/college-defeated-0.png")),
-                //new Texture(Gdx.files.internal("colleges/college-halfhealth.png")),
-                new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
-                new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
+                new Texture(Gdx.files.internal("colleges/college-defeated-0.png")),
+                new Texture(Gdx.files.internal("colleges/college-halfhealth.png")),
                 new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
         };
         collegeBase = new Sprite(collegeBases[2]);
@@ -48,7 +46,7 @@ public class College extends GameActor {
     @Override
     public boolean attack(int damage) {
         if (!super.attack(damage)) collegeBase = new Sprite(collegeBases[0]);
-        else if (this.getHealth() > (this.getMaxHealth() / 2)) collegeBase = new Sprite(collegeBases[1]);
+        else if (this.getHealth() < (this.getMaxHealth() / 2)) collegeBase = new Sprite(collegeBases[1]);
         else collegeBase = new Sprite(collegeBases[2]);
         return isActive();
     }
