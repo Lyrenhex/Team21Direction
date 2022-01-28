@@ -89,9 +89,9 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        update(Gdx.graphics.getDeltaTime());
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
-        update(Gdx.graphics.getDeltaTime());
         batch.setProjectionMatrix(camera.combined);
         // fix for some PNG transparency quirks...
         batch.enableBlending();
@@ -153,8 +153,8 @@ public class MainScreen implements Screen {
         } else {
             position.set(mouse);
         }
-        player.setX(position.x);
-        player.setY(position.y);
+        System.out.println("Player: (" + player.getX() + ", "+ player.getY() + ") Mouse: (" + mouse.x + ", " + mouse.y + ")");
+        player.setPosition(position.x, position.y);
     }
 
 }
