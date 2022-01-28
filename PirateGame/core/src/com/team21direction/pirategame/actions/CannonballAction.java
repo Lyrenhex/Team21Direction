@@ -1,8 +1,8 @@
 package com.team21direction.pirategame.actions;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.team21direction.pirategame.actors.Cannonball;
+import com.team21direction.pirategame.actors.GameActor;
 
 public class CannonballAction extends Action {
     float liveTime = 0.0f;
@@ -20,7 +20,11 @@ public class CannonballAction extends Action {
         float deltaY = (int)(cannonball.direction.y * 5);
         cannonball.move(deltaX, deltaY);
         if (liveTime >= 5.0f) cannonball.live = false;
-        // TODO collision detection.
+        GameActor victim = cannonball.game.mainScreen.getCollision(cannonball.getX(), cannonball.getY());
+        if (victim != null) {
+            victim.attack(cannonball.getDamage());
+            cannonball.live = false;
+        }
         return !(cannonball.live); // only 'complete' the action when the cannonball expires / hits something.
     }
 }

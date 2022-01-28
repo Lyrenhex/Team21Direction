@@ -11,10 +11,9 @@ import java.util.HashMap;
 public class Pointer extends GameActor {
 
     private Texture texture = new Texture(Gdx.files.internal("cannonball.png"));
+    private Sprite sprite = new Sprite(texture);
 
     public void draw(Batch batch, float parentAlpha) {
-        if (isActive()) {
-            batch.draw(texture, getX() - (texture.getWidth() / 2), getY() - (texture.getHeight() / 2));
-        }
+        batch.draw(sprite, getX() - (sprite.getWidth() / 2), getY() - (sprite.getHeight() / 2));
     }
 }

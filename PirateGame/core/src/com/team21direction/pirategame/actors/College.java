@@ -19,6 +19,7 @@ public class College extends GameActor {
      */
     public College(String name) {
         super();
+        this.radius = 350;
         this.name = name;
         collegeBases = new Texture[] {
                 //new Texture(Gdx.files.internal("colleges/college-defeated-0.png")),

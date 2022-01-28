@@ -12,6 +12,8 @@ public class GameActor extends Actor {
     private float x = 0.0f;
     private float y = 0.0f;
 
+    protected float radius;
+
     /**
      * Return the immutable max (starting) health of the actor.
      * @return an integer representing the maximum health of the actor.
@@ -57,7 +59,7 @@ public class GameActor extends Actor {
      * @param damage the amount of damage to inflict on the actor.
      * @return the new value of `isActive`.
      */
-    protected boolean attack(int damage) {
+    public boolean attack(int damage) {
         this.health -= damage;
         isActive = this.health > 0;
         return isActive;
@@ -107,7 +109,7 @@ public class GameActor extends Actor {
      * @return
      */
     public boolean collision(float x, float y) {
-        // TODO collision
-        return true;
+        return (this.x - this.radius <= x && x <= this.x + this.radius
+                && this.y - this.radius <= y && y <= this.y + this.radius);
     }
 }
