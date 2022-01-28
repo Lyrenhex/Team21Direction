@@ -2,19 +2,14 @@ package com.team21direction.pirategame;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.team21direction.pirategame.screens.MainScreen;
 import com.team21direction.pirategame.screens.TitleScreen;
 
 public class PirateGame extends Game implements ApplicationListener {
 	/* Constants */
 	public final static String TITLE = "Pirate Game!";
-	public final static int WORLD_WIDTH = 800;
-	public final static int WORLD_HEIGHT = 480;
+	public final static int WORLD_WIDTH = 2500;
+	public final static int WORLD_HEIGHT = 2500;
 	public final static int SHIPS_PER_COLLEGE = 5;
 
 	/* Screens */

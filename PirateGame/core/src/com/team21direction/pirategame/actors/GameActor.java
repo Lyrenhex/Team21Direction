@@ -1,6 +1,7 @@
 package com.team21direction.pirategame.actors;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.team21direction.pirategame.PirateGame;
 
 public class GameActor extends Actor {
     private boolean isActive = true;
@@ -10,6 +11,8 @@ public class GameActor extends Actor {
 
     private float x = 0.0f;
     private float y = 0.0f;
+
+    protected float radius;
 
     /**
      * Return the immutable max (starting) health of the actor.
@@ -56,7 +59,7 @@ public class GameActor extends Actor {
      * @param damage the amount of damage to inflict on the actor.
      * @return the new value of `isActive`.
      */
-    protected boolean attack(int damage) {
+    public boolean attack(int damage) {
         this.health -= damage;
         isActive = this.health > 0;
         return isActive;
@@ -95,8 +98,8 @@ public class GameActor extends Actor {
      * @param deltaY how far to move the actor along the y-axis (direction determined by sign).
      */
     public void move(float deltaX, float deltaY) {
-        this.x += x;
-        this.y += y;
+        if (this.x + deltaX <= PirateGame.WORLD_WIDTH / 2.0f) this.x += deltaX;
+        if (this.y + deltaY <= PirateGame.WORLD_HEIGHT / 2.0f) this.y += deltaY;
     }
 
     /**
@@ -106,7 +109,7 @@ public class GameActor extends Actor {
      * @return
      */
     public boolean collision(float x, float y) {
-        // TODO collision
-        return true;
+        return (this.x - this.radius <= x && x <= this.x + this.radius
+                && this.y - this.radius <= y && y <= this.y + this.radius);
     }
 }

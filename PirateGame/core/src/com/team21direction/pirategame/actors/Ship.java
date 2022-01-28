@@ -21,7 +21,9 @@ public class Ship extends GameActor {
      * Construct a new Ship which is a member of the supplied parentCollege.
      * @param parentCollege the College which the ship is allied to.
      */
-    public Ship(College parentCollege) {
+    public Ship(College parentCollege, boolean isPlayer) {
+        this.radius = 150;
+
         this.parentCollege = parentCollege;
         textures = new HashMap<>();
         textures.put(Direction.Up, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-up.png")));
@@ -29,13 +31,16 @@ public class Ship extends GameActor {
         textures.put(Direction.UpRight, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-upright.png")));
         textures.put(Direction.Left, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-left.png")));
         textures.put(Direction.Right, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-right.png")));
-        // TODO: textures.put(Direction.Down, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-down.png")));
-        textures.put(Direction.Down, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-up.png")));
+        textures.put(Direction.Down, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-down.png")));
         textures.put(Direction.DownLeft, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-downleft.png")));
         textures.put(Direction.DownRight, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-downright.png")));
 
         texture = new Sprite(textures.get(direction));
-        this.addAction(new MoveRandomly());
+        if (!isPlayer) this.addAction(new MoveRandomly());
+    }
+
+    public Ship(College parentCollege) {
+        this(parentCollege, false);
     }
 
     /**

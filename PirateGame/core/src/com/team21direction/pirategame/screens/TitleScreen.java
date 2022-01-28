@@ -38,7 +38,7 @@ public class TitleScreen implements Screen {
 
         camera = new OrthographicCamera();
 
-        viewport = new FitViewport(PirateGame.WORLD_WIDTH, PirateGame.WORLD_HEIGHT, camera);
+        viewport = new FitViewport(300, 300, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
