@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.team21direction.pirategame.actions.MoveRandomly;
 
 import java.util.HashMap;
@@ -50,6 +51,10 @@ public class Ship extends GameActor {
     public void setDirection(Direction direction) {
         this.direction = direction;
         texture = new Sprite(textures.get(direction));
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 
     /**
