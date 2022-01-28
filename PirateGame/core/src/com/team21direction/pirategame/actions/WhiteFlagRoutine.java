@@ -25,6 +25,7 @@ public class WhiteFlagRoutine extends Action {
         if (totalAnimationDuration >= 10.0f) {
             // mercy; the College joins the player's College.
             college.setCollegeName(college.screen.player.parentCollege.getCollegeName());
+            college.isWhiteFlag = false;
         }
         return totalAnimationDuration >= 10.0f; // only 'complete' the action when the Ship is killed.
     }
