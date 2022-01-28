@@ -21,7 +21,6 @@ import com.team21direction.pirategame.PirateGame;
 import com.team21direction.pirategame.actors.College;
 import com.team21direction.pirategame.actors.GameActor;
 import com.team21direction.pirategame.actors.Ship;
-import com.team21direction.pirategame.actors.Pointer;
 
 public class MainScreen implements Screen {
 
@@ -40,7 +39,6 @@ public class MainScreen implements Screen {
     private College[] colleges;
     private Ship[] ships;
     private Ship player;
-    private Pointer pointer;
     private final Vector2 position = new Vector2();
     private final Vector2 velocity = new Vector2();
     private final Vector2 movement = new Vector2();
@@ -84,8 +82,6 @@ public class MainScreen implements Screen {
         }
         player = new Ship(new College("Vanbrugh"), true);
         stage.addActor(player);
-        pointer = new Pointer();
-        stage.addActor(pointer);
     }
 
     @Override
@@ -143,12 +139,12 @@ public class MainScreen implements Screen {
 
     public void update_mouse(float deltaTime) {
         mouse.set(Gdx.input.getX(), camera.viewportHeight - Gdx.input.getY());
-        position.set(pointer.getX(), pointer.getY());
+        //position.set(pointer.getX(), pointer.getY());
         dir.set(mouse).sub(position).nor();
         velocity.set(dir).scl(speed);
         movement.set(velocity).scl(deltaTime);
             position.set(mouse);
-        pointer.setPosition(position.x, position.y);
+        //pointer.setPosition(position.x, position.y);
     }
 
     public GameActor getCollision(float x, float y) {
@@ -164,53 +160,44 @@ public class MainScreen implements Screen {
 
 
     public void update_keyboard() {
-        if(Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.D))){
-            player.move(283, 283);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            player.move(-400, 0);
+        float speedl = 3f;
+        float speedd = 2.15f;
+
+        float deltaX = 0.0f;
+        float deltaY = 0.0f;
+
+        if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            player.setDirection(Ship.Direction.Left);
+            deltaX = -speedl;
         }else if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            player.move(400, 0);
+            player.setDirection(Ship.Direction.Right);
+            deltaX = speedl;
         }else if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            player.move(0, 400);
+            player.setDirection(Ship.Direction.Up);
+            deltaY = speedl;
         }else if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            player.move(0, -400);
+            player.setDirection(Ship.Direction.Down);
+            deltaY = -speedl;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.W)&& (Gdx.input.isKeyPressed(Input.Keys.A))){
-            player.move(-283, 283);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            player.move(-400, 0);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            player.move(400, 0);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            player.move(0, 400);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            player.move(0, -400);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.S)&& (Gdx.input.isKeyPressed(Input.Keys.D))){
-            player.move(283, -283);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            player.move(-400, 0);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            player.move(400, 0);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            player.move(0, 400);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            player.move(0, -400);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.S)&& (Gdx.input.isKeyPressed(Input.Keys.A))){
-            player.move(-283, -283);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            player.move(-400, 0);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            player.move(400, 0);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            player.move(0, 400);
-        }else if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            player.move(0, -400);
+        if(Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.D))) {
+            player.setDirection(Ship.Direction.UpRight);
+            deltaX = speedd;
+            deltaY = speedd;
+        } else if(Gdx.input.isKeyPressed(Input.Keys.W)&& (Gdx.input.isKeyPressed(Input.Keys.A))){
+            player.setDirection(Ship.Direction.UpLeft);
+            deltaX = -speedd;
+            deltaY = speedd;
+        } else if(Gdx.input.isKeyPressed(Input.Keys.S)&& (Gdx.input.isKeyPressed(Input.Keys.D))){
+            player.setDirection(Ship.Direction.DownRight);
+            deltaX = speedd;
+            deltaY = -speedd;
+        } else if(Gdx.input.isKeyPressed(Input.Keys.S)&& (Gdx.input.isKeyPressed(Input.Keys.A))){
+            player.setDirection(Ship.Direction.DownLeft);
+            deltaX = -speedd;
+            deltaY = -speedd;
         }
 
+        player.move(deltaX, deltaY);
 
-        if(Gdx.input.isKeyPressed(Input.Keys.S)) player.move(0, 400);
-        if(Gdx.input.isKeyPressed(Input.Keys.S)) player.move(0, -400);
     }
 }
