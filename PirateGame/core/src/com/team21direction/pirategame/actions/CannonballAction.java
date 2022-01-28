@@ -20,7 +20,7 @@ public class CannonballAction extends Action {
         float deltaY = (int)(cannonball.direction.y * 5);
         cannonball.move(deltaX, deltaY);
         if (liveTime >= 5.0f) cannonball.live = false;
-        GameActor victim = cannonball.game.mainScreen.getCollision(cannonball.getX(), cannonball.getY());
+        GameActor victim = cannonball.screen.getCollision(cannonball.getX(), cannonball.getY());
         if (victim != null) {
             victim.attack(cannonball.getDamage());
             cannonball.live = false;
