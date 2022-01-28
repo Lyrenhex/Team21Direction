@@ -52,6 +52,9 @@ public class MainScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
 
+
+
+
         stage = new Stage(viewport, batch);
 
         colleges = new College[] {
@@ -80,6 +83,7 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         // fix for some PNG transparency quirks...
