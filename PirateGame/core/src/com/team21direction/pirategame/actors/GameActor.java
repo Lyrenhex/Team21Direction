@@ -2,6 +2,7 @@ package com.team21direction.pirategame.actors;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.team21direction.pirategame.PirateGame;
+import com.team21direction.pirategame.screens.MainScreen;
 
 public class GameActor extends Actor {
     private boolean isActive = true;
@@ -13,6 +14,12 @@ public class GameActor extends Actor {
     private float y = 0.0f;
 
     protected float radius;
+
+    public MainScreen screen;
+
+    public GameActor(MainScreen screen) {
+        this.screen = screen;
+    }
 
     /**
      * Return the immutable max (starting) health of the actor.
@@ -96,10 +103,18 @@ public class GameActor extends Actor {
      * Move the actor's location relative to their old position in the game world.
      * @param deltaX how far to move the actor along the x-axis (direction determined by sign).
      * @param deltaY how far to move the actor along the y-axis (direction determined by sign).
+     * @return whether the movement took place or not (false if OOB or collision).
      */
-    public void move(float deltaX, float deltaY) {
-        if (this.x + deltaX <= PirateGame.WORLD_WIDTH / 2.0f) this.x += deltaX;
-        if (this.y + deltaY <= PirateGame.WORLD_HEIGHT / 2.0f) this.y += deltaY;
+    public boolean move(float deltaX, float deltaY) {
+        this.x += deltaX;
+        this.y += deltaY;
+        if (this.x + deltaX >= PirateGame.WORLD_WIDTH / 2.0f
+            || this.x + deltaX <= -(PirateGame.WORLD_WIDTH / 2.0f)
+            || this.y + deltaY >= PirateGame.WORLD_HEIGHT / 2.0f
+            || this.y + deltaY <= -(PirateGame.WORLD_HEIGHT / 2.0f)
+            || screen.getCollision(this.x + deltaX, this.y + deltaY) != null)
+            return false;
+        return true;
     }
 
     /**

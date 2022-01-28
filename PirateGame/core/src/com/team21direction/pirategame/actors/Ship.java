@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.team21direction.pirategame.PirateGame;
 import com.team21direction.pirategame.actions.MoveRandomly;
+import com.team21direction.pirategame.screens.MainScreen;
 
 import java.util.HashMap;
 
@@ -21,7 +23,8 @@ public class Ship extends GameActor {
      * Construct a new Ship which is a member of the supplied parentCollege.
      * @param parentCollege the College which the ship is allied to.
      */
-    public Ship(College parentCollege, boolean isPlayer) {
+    public Ship(MainScreen screen, College parentCollege, boolean isPlayer) {
+        super(screen);
         this.radius = 150;
 
         this.parentCollege = parentCollege;
@@ -39,8 +42,8 @@ public class Ship extends GameActor {
         if (!isPlayer) this.addAction(new MoveRandomly());
     }
 
-    public Ship(College parentCollege) {
-        this(parentCollege, false);
+    public Ship(MainScreen screen, College parentCollege) {
+        this(screen, parentCollege, false);
     }
 
     /**

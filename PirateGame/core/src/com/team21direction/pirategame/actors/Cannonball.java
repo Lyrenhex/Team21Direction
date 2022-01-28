@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.team21direction.pirategame.PirateGame;
 import com.team21direction.pirategame.actions.CannonballAction;
+import com.team21direction.pirategame.screens.MainScreen;
 
 public class Cannonball extends GameActor {
     public final Vector2 direction = new Vector2();
@@ -16,12 +17,10 @@ public class Cannonball extends GameActor {
 
     public boolean live = true;
 
-    public PirateGame game;
-
-    public Cannonball(float x, float y, Vector2 direction, PirateGame game) {
+    public Cannonball(MainScreen screen, float x, float y, Vector2 direction) {
+        super(screen);
         this.setX(x);
         this.setY(y);
-        this.game = game;
         this.direction.set(direction);
         this.addAction(new CannonballAction());
     }
