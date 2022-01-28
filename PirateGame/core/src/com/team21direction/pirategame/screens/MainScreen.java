@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -36,6 +37,12 @@ public class MainScreen implements Screen {
     private College[] colleges;
     private Ship[] ships;
     private Ship player;
+    private final Vector2 position = new Vector2();
+    private final Vector2 velocity = new Vector2();
+    private final Vector2 movement = new Vector2();
+    private final Vector2 mouse = new Vector2();
+    private final Vector2 dir = new Vector2();
+    private float speed = 400;
 
     public MainScreen(Game game) {
         this.game = game;
@@ -51,8 +58,6 @@ public class MainScreen implements Screen {
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
-
-
 
 
         stage = new Stage(viewport, batch);
@@ -86,6 +91,7 @@ public class MainScreen implements Screen {
     public void render(float delta) {
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
+        update(Gdx.graphics.getDeltaTime());
         batch.setProjectionMatrix(camera.combined);
         // fix for some PNG transparency quirks...
         batch.enableBlending();
@@ -134,5 +140,21 @@ public class MainScreen implements Screen {
         camera.translate(-x,y);
         return true;
     }
-    
+
+
+    public void update(float deltaTime) {
+        mouse.set(Gdx.input.getX(), camera.viewportHeight - Gdx.input.getY());
+        position.set(player.getX(), player.getY());
+        dir.set(mouse).sub(position).nor();
+        velocity.set(dir).scl(speed);
+        movement.set(velocity).scl(deltaTime);
+        if (position.dst2(mouse) > movement.len2()){
+            position.add(movement);
+        } else {
+            position.set(mouse);
+        }
+        player.setX(position.x);
+        player.setY(position.y);
+    }
+
 }
