@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.team21direction.pirategame.screens.MainScreen;
 
 public class College extends GameActor {
     private final String name;
@@ -17,15 +18,13 @@ public class College extends GameActor {
      * [Name] is the supplied name.
      * @param name the name of the college.
      */
-    public College(String name) {
-        super();
+    public College(MainScreen screen, String name) {
+        super(screen);
         this.radius = 350;
         this.name = name;
         collegeBases = new Texture[] {
-                //new Texture(Gdx.files.internal("colleges/college-defeated-0.png")),
-                //new Texture(Gdx.files.internal("colleges/college-halfhealth.png")),
-                new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
-                new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
+                new Texture(Gdx.files.internal("colleges/college-defeated-0.png")),
+                new Texture(Gdx.files.internal("colleges/college-halfhealth.png")),
                 new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
         };
         collegeBase = new Sprite(collegeBases[2]);
@@ -47,7 +46,7 @@ public class College extends GameActor {
     @Override
     public boolean attack(int damage) {
         if (!super.attack(damage)) collegeBase = new Sprite(collegeBases[0]);
-        else if (this.getHealth() > (this.getMaxHealth() / 2)) collegeBase = new Sprite(collegeBases[1]);
+        else if (this.getHealth() < (this.getMaxHealth() / 2)) collegeBase = new Sprite(collegeBases[1]);
         else collegeBase = new Sprite(collegeBases[2]);
         return isActive();
     }

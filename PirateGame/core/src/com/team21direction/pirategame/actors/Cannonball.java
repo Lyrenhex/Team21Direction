@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.team21direction.pirategame.PirateGame;
 import com.team21direction.pirategame.actions.CannonballAction;
+import com.team21direction.pirategame.screens.MainScreen;
 
 public class Cannonball extends GameActor {
     public final Vector2 direction = new Vector2();
@@ -14,14 +14,14 @@ public class Cannonball extends GameActor {
     private final Texture texture = new Texture(Gdx.files.internal("cannonball.png"));
     private final Sprite sprite = new Sprite(texture);
 
+    public GameActor attacker;
+
     public boolean live = true;
 
-    public PirateGame game;
-
-    public Cannonball(float x, float y, Vector2 direction, PirateGame game) {
-        this.setX(x);
-        this.setY(y);
-        this.game = game;
+    public Cannonball(MainScreen screen, float x, float y, Vector2 direction, GameActor attacker) {
+        super(screen);
+        this.attacker = attacker;
+        this.setPosition(x, y);
         this.direction.set(direction);
         this.addAction(new CannonballAction());
     }

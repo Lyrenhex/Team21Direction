@@ -20,13 +20,13 @@ public class MoveRandomly extends Action {
     public boolean act(float delta) {
         movingTime += delta;
         Ship actorShip = (Ship)actor;
-        if (direction == null || movingTime >= 1.0f) {
+        if (direction == null || movingTime >= 1.0f + Math.random()) {
             direction = Ship.Direction.values()[new Random().nextInt(Ship.Direction.values().length)];
             actorShip.setDirection(direction);
             movingTime = 0.0f;
         }
-        float deltaX = (int)(Math.random() * 5);
-        float deltaY = (int)(Math.random() * 5);
+        float deltaX = (float)Math.random();
+        float deltaY = (float)Math.random();
         if (direction == Ship.Direction.Down || direction == Ship.Direction.DownLeft || direction == Ship.Direction.DownRight) deltaY *= -1;
         if (direction == Ship.Direction.Left || direction == Ship.Direction.Right) deltaY *= 0;
         if (direction == Ship.Direction.Left || direction == Ship.Direction.DownLeft || direction == Ship.Direction.UpLeft) deltaX *= -1;

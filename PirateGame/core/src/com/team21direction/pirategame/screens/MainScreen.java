@@ -1,17 +1,15 @@
 package com.team21direction.pirategame.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -25,29 +23,28 @@ import com.team21direction.pirategame.actors.Ship;
 
 public class MainScreen implements Screen {
 
-    private Sprite sprite;
-    private Batch batch;
-    private Texture texture;
+    private final PirateGame game;
+    private final Batch batch;
 
-    private Game game;
     protected Stage stage;
-    private Viewport viewport;
+    private final Viewport viewport;
     protected Skin skin;
     protected TextureAtlas atlas;
 
-    private OrthographicCamera camera;
+    private final OrthographicCamera camera;
 
-    private College[] colleges;
-    private Ship[] ships;
-    private Ship player;
+    private final College[] colleges;
+    private final Ship[] ships;
+    private final Ship player;
     private final Vector2 position = new Vector2();
     private final Vector2 cannonball_velocity = new Vector2();
     private final Vector2 movement = new Vector2();
     private final Vector2 mouse = new Vector2();
     private final Vector2 dir = new Vector2();
-    private float speed = 400;
 
-    public MainScreen(Game game) {
+    private float timeSinceLastCannon = 0.0f;
+
+    public MainScreen(PirateGame game) {
         this.game = game;
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
@@ -56,7 +53,7 @@ public class MainScreen implements Screen {
 
         batch = new SpriteBatch();
 
-        viewport = new FitViewport(PirateGame.WORLD_WIDTH, PirateGame.WORLD_HEIGHT, camera);
+        viewport = new FitViewport(2000, 2000, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -66,33 +63,32 @@ public class MainScreen implements Screen {
         stage = new Stage(viewport, batch);
 
         colleges = new College[] {
-                new College("Derwent"),
-                new College("Langwith"),
-                new College("Constantine"),
-                new College("Halifax"),
+                new College(this, "Derwent"),
+                new College(this, "Langwith"),
+                new College(this, "Constantine"),
+                new College(this, "Halifax"),
         };
         ships = new Ship[PirateGame.SHIPS_PER_COLLEGE * colleges.length];
         for (int i = 0; i < colleges.length; i++) {
-            boolean mustTryAgain;
+            boolean success;
             do {
-                colleges[i].move((float)(Math.random() * PirateGame.WORLD_WIDTH) - PirateGame.WORLD_WIDTH / 2.0f, (float)(Math.random() * PirateGame.WORLD_HEIGHT) - PirateGame.WORLD_WIDTH / 2.0f);
-                mustTryAgain = false;
-                for (int j = 0; j < i; j++) {
-                    if (colleges[j].collision(colleges[i].getX(), colleges[i].getY())) {
-                        mustTryAgain = true;
-                        break;
-                    }
-                }
-            } while (mustTryAgain);
+                success = colleges[i].move((float)(Math.random() * PirateGame.WORLD_WIDTH) - PirateGame.WORLD_WIDTH / 2.0f, (float)(Math.random() * PirateGame.WORLD_HEIGHT) - PirateGame.WORLD_WIDTH / 2.0f);
+            } while (!success);
 
             stage.addActor(colleges[i]);
             for (int j = 0; j < PirateGame.SHIPS_PER_COLLEGE; j++) {
-                ships[i + j] = new Ship(colleges[i]);
-                ships[i + j].move((float)(Math.random() * PirateGame.WORLD_WIDTH) - PirateGame.WORLD_WIDTH / 2.0f, (float)(Math.random() * PirateGame.WORLD_HEIGHT) - PirateGame.WORLD_WIDTH / 2.0f);
+                ships[i + j] = new Ship(this, colleges[i]);
+                do {
+                    success = ships[i + j].move((float)(Math.random() * PirateGame.WORLD_WIDTH) - PirateGame.WORLD_WIDTH / 2.0f, (float)(Math.random() * PirateGame.WORLD_HEIGHT) - PirateGame.WORLD_WIDTH / 2.0f);
+                } while (!success);
                 stage.addActor(ships[i + j]);
             }
         }
-        player = new Ship(new College("Vanbrugh"), true);
+        player = new Ship(this, new College(this,"Vanbrugh"), true);
+        boolean success;
+        do {
+            success = player.move((float)(Math.random() * PirateGame.WORLD_WIDTH) - PirateGame.WORLD_WIDTH / 2.0f, (float)(Math.random() * PirateGame.WORLD_HEIGHT) - PirateGame.WORLD_WIDTH / 2.0f);
+        } while (!success);
         stage.addActor(player);
     }
 
@@ -103,6 +99,8 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        timeSinceLastCannon += delta;
+
         //update(Gdx.graphics.getDeltaTime());
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
@@ -161,20 +159,26 @@ public class MainScreen implements Screen {
 
     public GameActor getCollision(float x, float y) {
         for (College college : colleges) {
-            if (college.collision(x, y)) return college;
+            if (college != null)
+                if (college.collision(x, y))
+                    return college;
         }
-        for (Ship ship : ships) {
-            if (ship.collision(x, y)) return ship;
-        }
-        if (player.collision(x, y)) return player;
+//        for (Ship ship : ships) {
+//            if (ship != null)
+//                if (ship.collision(x, y))
+//                    return ship;
+//        }
+        if (player != null)
+            if (player.collision(x, y))
+                return player;
         return null;
     }
 
 
 
     public void update_keyboard() {
-        float speedl = 3f;
-        float speedd = 2.15f;
+        float speedl = 1f;
+        float speedd = 0.7f;
 
         float deltaX = 0.0f;
         float deltaY = 0.0f;
@@ -212,10 +216,18 @@ public class MainScreen implements Screen {
 
         player.move(deltaX, deltaY);
 
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            cannonball_velocity.set(deltaX+deltaX*2, deltaY+deltaY*2);
-            Cannonball ball = new Cannonball(player.getX(), player.getY(), cannonball_velocity, game);
-
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && timeSinceLastCannon >= 0.75f){
+            timeSinceLastCannon = 0.0f;
+            if (player.getDirection() == Ship.Direction.Down) cannonball_velocity.set(0, -speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.DownLeft) cannonball_velocity.set(-speedl+deltaX, -speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.DownRight) cannonball_velocity.set(speedl+deltaX, -speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.UpRight) cannonball_velocity.set(speedl+deltaX, speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.UpLeft) cannonball_velocity.set(-speedl+deltaX, speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.Up) cannonball_velocity.set(0, speedl+deltaY);
+            else if (player.getDirection() == Ship.Direction.Left) cannonball_velocity.set(-speedl+deltaX, 0);
+            else if (player.getDirection() == Ship.Direction.Right) cannonball_velocity.set(speedl+deltaX, 0);
+            Cannonball ball = new Cannonball(this, player.getX(), player.getY(), cannonball_velocity, player);
+            stage.addActor(ball);
         }
 
     }
