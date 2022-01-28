@@ -213,7 +213,7 @@ public class MainScreen implements Screen {
         player.move(deltaX, deltaY);
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            cannonball_velocity.set(deltaX+7, deltaY+7);
+            cannonball_velocity.set(deltaX+deltaX*2, deltaY+deltaY*2);
             Cannonball ball = new Cannonball(player.getX(), player.getY(), cannonball_velocity, game);
 
         }
