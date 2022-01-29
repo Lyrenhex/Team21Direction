@@ -11,7 +11,7 @@ public class FireCannon extends Action {
     public boolean act(float delta) {
         College college = (College)actor;
         timeSinceLastCannon += delta;
-        if (timeSinceLastCannon >= 1.5f + Math.random()) {
+        if (timeSinceLastCannon >= 2.0f + Math.random()) {
             college.screen.fireCannon(college, new Vector2(college.screen.player.getX() - college.getX(), college.screen.player.getY() - college.getY()).nor().scl(2.0f));
             timeSinceLastCannon = 0.0f;
         }

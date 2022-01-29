@@ -56,5 +56,9 @@ public class PirateGame extends Game implements ApplicationListener {
 	@Override
 	public void dispose () {
 		super.dispose();
+		titleScreen.dispose();
+		mainScreen.dispose();
+		winScreen.dispose();
+		lossScreen.dispose();
 	}
 }
