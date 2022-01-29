@@ -52,7 +52,7 @@ public class MainScreen implements Screen {
 
         batch = new SpriteBatch();
 
-        viewport = new FitViewport(2000, 2000, camera);
+        viewport = new FitViewport(2670, 2000, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);

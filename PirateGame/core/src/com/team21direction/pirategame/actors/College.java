@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.team21direction.pirategame.actions.WhiteFlagRoutine;
 import com.team21direction.pirategame.screens.MainScreen;
 
@@ -12,6 +13,8 @@ public class College extends GameActor {
 
     private final Texture[] collegeBases;
     public Sprite collegeBase;
+
+    public boolean isWhiteFlag = false;
 
     /**
      * Constructs a new College with the given name.
@@ -55,9 +58,15 @@ public class College extends GameActor {
             if (!super.attack(damage)) {
                 collegeBase = new Sprite(collegeBases[0]);
                 this.addAction(new WhiteFlagRoutine());
+                isWhiteFlag = true;
             }
             else if (this.getHealth() < (this.getMaxHealth() / 2)) collegeBase = new Sprite(collegeBases[1]);
             else collegeBase = new Sprite(collegeBases[2]);
+        } else if (isWhiteFlag) {
+            for (Action action : this.getActions()) {
+                this.removeAction(action);
+            }
+            collegeBase = new Sprite(new Texture(Gdx.files.internal("colleges/college-defeated-0.png")));
         }
         return isActive();
     }
