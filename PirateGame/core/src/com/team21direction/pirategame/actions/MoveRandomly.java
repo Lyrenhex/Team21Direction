@@ -25,8 +25,8 @@ public class MoveRandomly extends Action {
             actorShip.setDirection(direction);
             movingTime = 0.0f;
         }
-        float deltaX = (float)Math.random();
-        float deltaY = (float)Math.random();
+        float deltaX = (float)Math.random()*7;
+        float deltaY = (float)Math.random()*7;
         if (direction == Ship.Direction.Down || direction == Ship.Direction.DownLeft || direction == Ship.Direction.DownRight) deltaY *= -1;
         if (direction == Ship.Direction.Left || direction == Ship.Direction.Right) deltaY *= 0;
         if (direction == Ship.Direction.Left || direction == Ship.Direction.DownLeft || direction == Ship.Direction.UpLeft) deltaX *= -1;

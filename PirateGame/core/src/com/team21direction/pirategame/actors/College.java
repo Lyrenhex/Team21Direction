@@ -21,7 +21,7 @@ public class College extends GameActor {
      */
     public College(MainScreen screen, String name) {
         super(screen);
-        this.radius = 350;
+        this.radius = 700;
         this.name = name;
         collegeBases = new Texture[] {
                 new Texture(Gdx.files.internal("colleges/college-defeated-0.png")),
@@ -69,6 +69,6 @@ public class College extends GameActor {
      * @param parentAlpha the parent Actor's alpha value for alpha blending.
      */
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(collegeBase, getX() - (collegeBase.getWidth() / 2), getY() - (collegeBase.getHeight() / 2));
+        batch.draw(collegeBase, getX() - (collegeBase.getWidth()), getY() - (collegeBase.getHeight()), collegeBase.getWidth()*2, collegeBase.getHeight()*2);
     }
 }
