@@ -130,8 +130,9 @@ public class MainScreen implements Screen {
         stage.act(delta);
         stage.draw();
         batch.begin();
-        font.draw(batch, "Exp: " + experience, player.getX() - camera.viewportWidth / 2, player.getY() + camera.viewportHeight / 2);
-        font.draw(batch, "Gold: " + gold, player.getX() - camera.viewportWidth / 2, player.getY() + camera.viewportHeight / 2 - font.getLineHeight());
+        font.draw(batch, "Health: " + player.getHealth() + " / " + player.getMaxHealth(), player.getX() - camera.viewportWidth / 2, player.getY() + camera.viewportHeight / 2);
+        font.draw(batch, "Exp: " + experience, player.getX() - camera.viewportWidth / 2, player.getY() + camera.viewportHeight / 2 - font.getLineHeight());
+        font.draw(batch, "Gold: " + gold, player.getX() - camera.viewportWidth / 2, player.getY() + camera.viewportHeight / 2 - font.getLineHeight() * 2);
         batch.end();
 
         boolean collegeActive = false;
@@ -258,9 +259,13 @@ public class MainScreen implements Screen {
             else if (player.getDirection() == Ship.Direction.Up) cannonball_velocity.set(0, speedl+deltaY);
             else if (player.getDirection() == Ship.Direction.Left) cannonball_velocity.set(-speedl+deltaX, 0);
             else if (player.getDirection() == Ship.Direction.Right) cannonball_velocity.set(speedl+deltaX, 0);
-            Cannonball ball = new Cannonball(this, player.getX(), player.getY(), cannonball_velocity, player);
-            stage.addActor(ball);
+            fireCannon(player, cannonball_velocity);
         }
 
+    }
+
+    public void fireCannon(GameActor attacker, Vector2 velocity) {
+        Cannonball ball = new Cannonball(this, attacker.getX(), attacker.getY(), velocity, attacker);
+        stage.addActor(ball);
     }
 }

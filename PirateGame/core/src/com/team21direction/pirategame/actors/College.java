@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.team21direction.pirategame.actions.FireCannon;
 import com.team21direction.pirategame.actions.WhiteFlagRoutine;
 import com.team21direction.pirategame.screens.MainScreen;
 
@@ -32,6 +33,7 @@ public class College extends GameActor {
                 new Texture(Gdx.files.internal("colleges/" + this.name + "-college-fullhealth.png")),
         };
         collegeBase = new Sprite(collegeBases[2]);
+        this.addAction(new FireCannon());
     }
 
     /**
@@ -65,9 +67,7 @@ public class College extends GameActor {
         } else if (isWhiteFlag) {
             isWhiteFlag = false;
             screen.gold += screen.goldPerCollege;
-            for (Action action : this.getActions()) {
-                this.removeAction(action);
-            }
+            this.clearActions();
             collegeBase = new Sprite(new Texture(Gdx.files.internal("colleges/college-defeated-0.png")));
         }
         return isActive();

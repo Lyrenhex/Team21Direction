@@ -72,6 +72,10 @@ public class Ship extends GameActor {
         return isActive();
     }
 
+    public boolean isPlayer() {
+        return isPlayer;
+    }
+
     /**
      * Draw the ship on the screen.
      * This should be called once per frame by `Stage.draw()`.

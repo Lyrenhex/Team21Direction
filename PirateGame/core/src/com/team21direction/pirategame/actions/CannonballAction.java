@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.team21direction.pirategame.actors.Cannonball;
 import com.team21direction.pirategame.actors.College;
 import com.team21direction.pirategame.actors.GameActor;
+import com.team21direction.pirategame.actors.Ship;
 
 public class CannonballAction extends Action {
     float liveTime = 0.0f;
@@ -21,14 +22,17 @@ public class CannonballAction extends Action {
         float deltaY = (int)(cannonball.direction.y * 5);
         GameActor victim = cannonball.screen.getCollision(cannonball.getX() + deltaX, cannonball.getY() + deltaY);
         // ... remove the College check for Ship collisions...
-        if (victim != null && victim != cannonball.attacker && victim instanceof College) {
+        if (victim != null && victim != cannonball.attacker && (victim instanceof College || ((Ship)victim).isPlayer())) {
             victim.attack(cannonball.getDamage());
             cannonball.live = false;
             actor.remove();
             return true;
         }
-        cannonball.move(deltaX, deltaY);
-        if (liveTime >= 1.5f) cannonball.live = false;
+        cannonball.setPosition(cannonball.getX() + deltaX, cannonball.getY() + deltaY);
+        if (liveTime >= 1.5f) {
+            cannonball.live = false;
+            actor.remove();
+        }
         return !(cannonball.live); // only 'complete' the action when the cannonball expires / hits something.
     }
 }
