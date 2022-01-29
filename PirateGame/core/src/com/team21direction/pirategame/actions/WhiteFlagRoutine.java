@@ -17,11 +17,11 @@ public class WhiteFlagRoutine extends Action {
     public boolean act(float delta) {
         College college = (College)actor;
         totalAnimationDuration += delta;
-        animState = (int)(totalAnimationDuration / 0.5f);
-        if (animState > 3) {
-            animState = 3;
+        int newAnimState = (int)(totalAnimationDuration / 0.5f);
+        if (animState != newAnimState && newAnimState <= 3) {
+            animState = newAnimState;
+            college.collegeBase = new Sprite(new Texture(Gdx.files.internal("colleges/college-defeated-" + animState + ".png")));
         }
-        college.collegeBase = new Sprite(new Texture(Gdx.files.internal("colleges/college-defeated-" + animState + ".png")));
         if (totalAnimationDuration >= 10.0f) {
             // mercy; the College joins the player's College.
             college.setCollegeName(college.screen.player.parentCollege.getCollegeName());
