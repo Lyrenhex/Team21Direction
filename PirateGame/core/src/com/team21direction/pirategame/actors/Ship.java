@@ -18,6 +18,8 @@ public class Ship extends GameActor {
     private final HashMap<Direction, Texture> textures;
     private Sprite texture;
 
+    private boolean isPlayer;
+
     /**
      * Construct a new Ship which is a member of the supplied parentCollege.
      * @param parentCollege the College which the ship is allied to.
@@ -38,6 +40,8 @@ public class Ship extends GameActor {
         textures.put(Direction.DownRight, new Texture(Gdx.files.internal("ships/" + parentCollege.getCollegeName() + "-ship-downright.png")));
 
         texture = new Sprite(textures.get(direction));
+
+        this.isPlayer = isPlayer;
         if (!isPlayer) this.addAction(new MoveRandomly());
     }
 
@@ -56,6 +60,16 @@ public class Ship extends GameActor {
 
     public Direction getDirection() {
         return direction;
+    }
+
+    @Override
+    public boolean attack(int damage) {
+        super.attack(damage);
+        if (isPlayer && !isActive()) {
+            // game over
+            screen.game.setScreen(screen.game.lossScreen);
+        }
+        return isActive();
     }
 
     /**

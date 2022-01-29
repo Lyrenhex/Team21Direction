@@ -24,6 +24,7 @@ public class WhiteFlagRoutine extends Action {
         }
         if (totalAnimationDuration >= 10.0f) {
             // mercy; the College joins the player's College.
+            college.screen.experience += college.screen.experiencePerCollege;
             college.setCollegeName(college.screen.player.parentCollege.getCollegeName());
             college.isWhiteFlag = false;
         }

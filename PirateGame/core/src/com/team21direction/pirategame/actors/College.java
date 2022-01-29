@@ -63,6 +63,8 @@ public class College extends GameActor {
             else if (this.getHealth() < (this.getMaxHealth() / 2)) collegeBase = new Sprite(collegeBases[1]);
             else collegeBase = new Sprite(collegeBases[2]);
         } else if (isWhiteFlag) {
+            isWhiteFlag = false;
+            screen.gold += screen.goldPerCollege;
             for (Action action : this.getActions()) {
                 this.removeAction(action);
             }
