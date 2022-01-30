@@ -28,7 +28,7 @@ public class LossScreen implements Screen {
     private SpriteBatch batch;
 
     /**
-     * TitleScreen is the Screen for the main menu.
+     * LossScreen is the Screen for the main menu.
      * @param game the PirateGame object to allow this screen to trigger a screen change when the play button is pressed.
      */
     public LossScreen(PirateGame game) {
