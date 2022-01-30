@@ -3,7 +3,11 @@ body {
     text-align: center;
 }
 
-#deliverables {
+img {
+    border-radius: 10px;
+}
+
+ul {
     list-style: none;
     padding: 0;
 }
@@ -15,6 +19,7 @@ body {
     padding: 15px;
     margin: auto;
 }
+
 .version h4 {
     margin-top: 0;
 }

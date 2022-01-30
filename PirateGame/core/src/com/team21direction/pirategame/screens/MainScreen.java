@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -22,13 +23,14 @@ import com.team21direction.pirategame.actors.Ship;
 
 public class MainScreen implements Screen {
 
-    private final PirateGame game;
+    public final PirateGame game;
     private final Batch batch;
 
     protected Stage stage;
     private final Viewport viewport;
     protected Skin skin;
     protected TextureAtlas atlas;
+    private BitmapFont font;
 
     private final OrthographicCamera camera;
 
@@ -43,10 +45,25 @@ public class MainScreen implements Screen {
 
     private float timeSinceLastCannon = 0.0f;
 
+    public int experience = 0;
+    public int gold = 0;
+
+    /**
+     * Amount of experience gained when taking over a College.
+     */
+    public int experiencePerCollege = 10;
+
+    /**
+     * Amount of gold gained when razing a College.
+     */
+    public int goldPerCollege = 10;
+
     public MainScreen(PirateGame game) {
         this.game = game;
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
+        font = new BitmapFont();
+        font.getData().setScale(4.0f);
 
         camera = new OrthographicCamera();
 
@@ -112,6 +129,23 @@ public class MainScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_ALPHA_BITS);
         stage.act(delta);
         stage.draw();
+        batch.begin();
+        font.draw(batch, "Health: " + player.getHealth() + " / " + player.getMaxHealth(), player.getX() - camera.viewportWidth / 2, player.getY() + camera.viewportHeight / 2);
+        font.draw(batch, "Exp: " + experience, player.getX() - camera.viewportWidth / 2, player.getY() + camera.viewportHeight / 2 - font.getLineHeight());
+        font.draw(batch, "Gold: " + gold, player.getX() - camera.viewportWidth / 2, player.getY() + camera.viewportHeight / 2 - font.getLineHeight() * 2);
+        batch.end();
+
+        boolean collegeActive = false;
+        for (College college : colleges) {
+            if (college.isActive()) {
+                collegeActive = true;
+                break;
+            }
+        }
+        if (!collegeActive) {
+            // all colleges are no longer active -- game over
+            game.setScreen(game.winScreen);
+        }
     }
 
     @Override
@@ -176,8 +210,10 @@ public class MainScreen implements Screen {
 
 
     public void update_keyboard() {
-        float speedl = 5f;
-        float speedd = 3.54f;
+
+        float speedl = 4f;
+        float speedd = 2.83f;
+
 
         float deltaX = 0.0f;
         float deltaY = 0.0f;
@@ -225,9 +261,13 @@ public class MainScreen implements Screen {
             else if (player.getDirection() == Ship.Direction.Up) cannonball_velocity.set(0, speedl+deltaY);
             else if (player.getDirection() == Ship.Direction.Left) cannonball_velocity.set(-speedl+deltaX, 0);
             else if (player.getDirection() == Ship.Direction.Right) cannonball_velocity.set(speedl+deltaX, 0);
-            Cannonball ball = new Cannonball(this, player.getX(), player.getY(), cannonball_velocity, player);
-            stage.addActor(ball);
+            fireCannon(player, cannonball_velocity);
         }
 
+    }
+
+    public void fireCannon(GameActor attacker, Vector2 velocity) {
+        Cannonball ball = new Cannonball(this, attacker.getX(), attacker.getY(), velocity, attacker);
+        stage.addActor(ball);
     }
 }
