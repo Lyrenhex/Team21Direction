@@ -27,7 +27,7 @@ public class WinScreen implements Screen {
     private final OrthographicCamera camera;
 
     /**
-     * TitleScreen is the Screen for the main menu.
+     * WinScreen is the Screen for the main menu.
      * @param game the PirateGame object to allow this screen to trigger a screen change when the play button is pressed.
      */
     public WinScreen(PirateGame game) {
