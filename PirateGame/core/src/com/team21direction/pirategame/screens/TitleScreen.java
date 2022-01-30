@@ -100,7 +100,7 @@ public class TitleScreen implements Screen {
 
         uiTable.row();
 
-        Label instructions = new Label("Defeat all colleges to win.\nWASD to move.\nSPACE to fire cannons.\nM to toggle mute.", skin);
+        Label instructions = new Label("Defeat all colleges to win.\nWASD to move.\nSPACE to fire cannons.\nM to toggle mute.\nESCAPE to pause.", skin);
 
         uiTable.add(instructions);
 
