@@ -80,6 +80,6 @@ public class College extends GameActor {
      * @param parentAlpha the parent Actor's alpha value for alpha blending.
      */
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(collegeBase, getX() - (collegeBase.getWidth() / 2), getY() - (collegeBase.getHeight() / 2));
+        batch.draw(collegeBase, getX() - (collegeBase.getWidth() / 2.0f), getY() - (collegeBase.getHeight() / 2.0f));
     }
 }

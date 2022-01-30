@@ -76,16 +76,6 @@ public class Ship extends GameActor {
         return isPlayer;
     }
 
-    @Override
-    public float getX() {
-        return super.getX() - (texture.getWidth() / 2);
-    }
-
-    @Override
-    public float getY() {
-        return super.getY() + (texture.getHeight() / 2);
-    }
-
     /**
      * Draw the ship on the screen.
      * This should be called once per frame by `Stage.draw()`.
@@ -94,7 +84,7 @@ public class Ship extends GameActor {
      */
     public void draw(Batch batch, float parentAlpha) {
         if (isActive()) {
-            batch.draw(texture, getX() - (texture.getWidth() / 2), getY());
+            batch.draw(texture, getX() - (texture.getWidth() / 2.0f), getY() - (texture.getHeight() / 2.0f));
         }
     }
 }
