@@ -44,14 +44,6 @@ public class LossScreen implements Screen {
         camera.update();
 
         stage = new Stage(viewport);
-    }
-
-    /**
-     * show() is called when the screen becomes visible; use this time to set up the menu layout.
-     */
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
 
         Table uiTable = new Table();
         uiTable.setFillParent(true);
@@ -75,9 +67,9 @@ public class LossScreen implements Screen {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.mainScreen.dispose();
-                game.mainScreen = new MainScreen(game);
-                game.setScreen(game.mainScreen);
+                LossScreen.this.game.mainScreen.dispose();
+                LossScreen.this.game.mainScreen = new MainScreen(LossScreen.this.game);
+                LossScreen.this.game.setScreen(LossScreen.this.game.mainScreen);
             }
         });
 
@@ -98,6 +90,14 @@ public class LossScreen implements Screen {
         uiTable.add(exitButton);
 
         stage.addActor(uiTable);
+    }
+
+    /**
+     * show() is called when the screen becomes visible; use this time to set up the menu layout.
+     */
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

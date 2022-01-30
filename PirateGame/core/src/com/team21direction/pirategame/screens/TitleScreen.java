@@ -53,14 +53,6 @@ public class TitleScreen implements Screen {
         music.setLooping(true);
 
         stage = new Stage(viewport);
-    }
-
-    /**
-     * show() is called when the screen becomes visible; use this time to set up the menu layout.
-     */
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
 
         Table uiTable = new Table();
         uiTable.setFillParent(true);
@@ -78,7 +70,7 @@ public class TitleScreen implements Screen {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.mainScreen);
+                TitleScreen.this.game.setScreen(TitleScreen.this.game.mainScreen);
             }
         });
 
@@ -105,6 +97,14 @@ public class TitleScreen implements Screen {
         uiTable.add(instructions);
 
         stage.addActor(uiTable);
+    }
+
+    /**
+     * show() is called when the screen becomes visible.
+     */
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
 
         if (isPlayingMusic) music.play();
     }
