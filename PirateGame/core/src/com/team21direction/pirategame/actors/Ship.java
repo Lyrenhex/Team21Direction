@@ -18,7 +18,7 @@ public class Ship extends GameActor {
     private final HashMap<Direction, Texture> textures;
     private Sprite texture;
 
-    private boolean isPlayer;
+    private final boolean isPlayer;
 
     /**
      * Construct a new Ship which is a member of the supplied parentCollege.
@@ -76,6 +76,16 @@ public class Ship extends GameActor {
         return isPlayer;
     }
 
+    @Override
+    public float getX() {
+        return super.getX() - (texture.getWidth() / 2);
+    }
+
+    @Override
+    public float getY() {
+        return super.getY() + (texture.getHeight() / 2);
+    }
+
     /**
      * Draw the ship on the screen.
      * This should be called once per frame by `Stage.draw()`.
@@ -84,7 +94,7 @@ public class Ship extends GameActor {
      */
     public void draw(Batch batch, float parentAlpha) {
         if (isActive()) {
-            batch.draw(texture, getX() - (texture.getWidth() / 2), getY() - (texture.getHeight() / 2));
+            batch.draw(texture, getX() - (texture.getWidth() / 2), getY());
         }
     }
 }

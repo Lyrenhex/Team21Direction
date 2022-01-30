@@ -18,14 +18,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.team21direction.pirategame.PirateGame;
 
 public class LossScreen implements Screen {
-    private PirateGame game;
+    private final PirateGame game;
     protected Stage stage;
-    private Viewport viewport;
+    private final Viewport viewport;
     protected Skin skin;
     protected TextureAtlas atlas;
 
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
+    private final OrthographicCamera camera;
 
     /**
      * TitleScreen is the Screen for the main menu.
@@ -126,7 +125,6 @@ public class LossScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
         skin.dispose();
         atlas.dispose();
     }
