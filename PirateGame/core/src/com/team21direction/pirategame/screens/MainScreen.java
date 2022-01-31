@@ -236,8 +236,8 @@ public class MainScreen implements Screen {
 
     public void update_keyboard() {
 
-        float speedl = 4f + experience / 100f;
-        float speedd = 2.83f + experience / 200f;
+        float speedl = 4f + experience / 10f;
+        float speedd = 2.83f + experience / 20f;
 
 
 
