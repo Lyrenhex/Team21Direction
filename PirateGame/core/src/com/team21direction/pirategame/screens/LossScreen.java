@@ -18,17 +18,16 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.team21direction.pirategame.PirateGame;
 
 public class LossScreen implements Screen {
-    private PirateGame game;
+    private final PirateGame game;
     protected Stage stage;
-    private Viewport viewport;
+    private final Viewport viewport;
     protected Skin skin;
     protected TextureAtlas atlas;
 
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
+    private final OrthographicCamera camera;
 
     /**
-     * TitleScreen is the Screen for the main menu.
+     * LossScreen is the Screen for the main menu.
      * @param game the PirateGame object to allow this screen to trigger a screen change when the play button is pressed.
      */
     public LossScreen(PirateGame game) {
@@ -45,14 +44,6 @@ public class LossScreen implements Screen {
         camera.update();
 
         stage = new Stage(viewport);
-    }
-
-    /**
-     * show() is called when the screen becomes visible; use this time to set up the menu layout.
-     */
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
 
         Table uiTable = new Table();
         uiTable.setFillParent(true);
@@ -76,9 +67,9 @@ public class LossScreen implements Screen {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.mainScreen.dispose();
-                game.mainScreen = new MainScreen(game);
-                game.setScreen(game.mainScreen);
+                LossScreen.this.game.mainScreen.dispose();
+                LossScreen.this.game.mainScreen = new MainScreen(LossScreen.this.game);
+                LossScreen.this.game.setScreen(LossScreen.this.game.mainScreen);
             }
         });
 
@@ -99,6 +90,14 @@ public class LossScreen implements Screen {
         uiTable.add(exitButton);
 
         stage.addActor(uiTable);
+    }
+
+    /**
+     * show() is called when the screen becomes visible; use this time to set up the menu layout.
+     */
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -126,7 +125,6 @@ public class LossScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
         skin.dispose();
         atlas.dispose();
     }

@@ -3,6 +3,8 @@ package com.team21direction.pirategame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -30,7 +32,9 @@ public class MainScreen implements Screen {
     private final Viewport viewport;
     protected Skin skin;
     protected TextureAtlas atlas;
-    private BitmapFont font;
+    private final BitmapFont font;
+    private final Music music;
+    private final Sound cannonballSound;
 
     private final OrthographicCamera camera;
 
@@ -58,6 +62,11 @@ public class MainScreen implements Screen {
      */
     public int goldPerCollege = 10;
 
+    private float timeSinceLastExpDrop = 0.0f;
+    private float timeSinceLastMusicToggle = 0.0f;
+
+    private boolean isPlayingMusic = true;
+
     public MainScreen(PirateGame game) {
         this.game = game;
         skin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -75,6 +84,10 @@ public class MainScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
 
+        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        music.setLooping(true);
+
+        cannonballSound = Gdx.audio.newSound(Gdx.files.internal("cannonball.mp3"));
 
         stage = new Stage(viewport, batch);
 
@@ -111,11 +124,19 @@ public class MainScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        if (isPlayingMusic) music.play();
     }
 
     @Override
     public void render(float delta) {
         timeSinceLastCannon += delta;
+        timeSinceLastExpDrop += delta;
+        timeSinceLastMusicToggle += delta;
+
+        if (timeSinceLastExpDrop >= 10.0f) {
+            timeSinceLastExpDrop = 0.0f;
+            experience++;
+        }
 
         //update(Gdx.graphics.getDeltaTime());
         camera.position.set(player.getX(), player.getY(), 0);
@@ -162,10 +183,14 @@ public class MainScreen implements Screen {
     public void resume() {}
 
     @Override
-    public void hide() {}
+    public void hide() {
+        music.pause();
+    }
 
     @Override
     public void dispose() {
+        music.dispose();
+        cannonballSound.dispose();
         batch.dispose();
         skin.dispose();
         atlas.dispose();
@@ -211,8 +236,9 @@ public class MainScreen implements Screen {
 
     public void update_keyboard() {
 
-        float speedl = 4f;
-        float speedd = 2.83f;
+        float speedl = 4f + experience / 100f;
+        float speedd = 2.83f + experience / 200f;
+
 
 
         float deltaX = 0.0f;
@@ -264,10 +290,20 @@ public class MainScreen implements Screen {
             fireCannon(player, cannonball_velocity);
         }
 
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) game.setScreen(game.titleScreen);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.M) && timeSinceLastMusicToggle >= 0.5f) {
+            timeSinceLastMusicToggle = 0.0f;
+            isPlayingMusic = !isPlayingMusic;
+            if (isPlayingMusic) music.play();
+            else music.pause();
+        }
+
     }
 
     public void fireCannon(GameActor attacker, Vector2 velocity) {
         Cannonball ball = new Cannonball(this, attacker.getX(), attacker.getY(), velocity, attacker);
         stage.addActor(ball);
+        if (isPlayingMusic) cannonballSound.play();
     }
 }

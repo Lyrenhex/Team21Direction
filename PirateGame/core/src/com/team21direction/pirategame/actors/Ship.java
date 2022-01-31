@@ -18,7 +18,7 @@ public class Ship extends GameActor {
     private final HashMap<Direction, Texture> textures;
     private Sprite texture;
 
-    private boolean isPlayer;
+    private final boolean isPlayer;
 
     /**
      * Construct a new Ship which is a member of the supplied parentCollege.
@@ -84,7 +84,7 @@ public class Ship extends GameActor {
      */
     public void draw(Batch batch, float parentAlpha) {
         if (isActive()) {
-            batch.draw(texture, getX() - (texture.getWidth() / 2), getY() - (texture.getHeight() / 2));
+            batch.draw(texture, getX() - (texture.getWidth() / 2.0f), getY() - (texture.getHeight() / 2.0f));
         }
     }
 }

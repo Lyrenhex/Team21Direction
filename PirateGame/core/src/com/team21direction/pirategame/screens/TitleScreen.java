@@ -1,7 +1,9 @@
 package com.team21direction.pirategame.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -18,14 +20,17 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.team21direction.pirategame.PirateGame;
 
 public class TitleScreen implements Screen {
-    private PirateGame game;
+    private final PirateGame game;
     protected Stage stage;
-    private Viewport viewport;
+    private final Viewport viewport;
     protected Skin skin;
     protected TextureAtlas atlas;
+    private final Music music;
 
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
+    private final OrthographicCamera camera;
+
+    private float timeSinceLastMusicToggle = 0.0f;
+    private boolean isPlayingMusic = true;
 
     /**
      * TitleScreen is the Screen for the main menu.
@@ -44,15 +49,10 @@ public class TitleScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
 
-        stage = new Stage(viewport);
-    }
+        music = Gdx.audio.newMusic(Gdx.files.internal("titleMusic.ogg"));
+        music.setLooping(true);
 
-    /**
-     * show() is called when the screen becomes visible; use this time to set up the menu layout.
-     */
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
+        stage = new Stage(viewport);
 
         Table uiTable = new Table();
         uiTable.setFillParent(true);
@@ -70,7 +70,7 @@ public class TitleScreen implements Screen {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.mainScreen);
+                TitleScreen.this.game.setScreen(TitleScreen.this.game.mainScreen);
             }
         });
 
@@ -90,7 +90,23 @@ public class TitleScreen implements Screen {
 
         uiTable.add(exitButton);
 
+        uiTable.row();
+
+        Label instructions = new Label("Defeat all colleges to win.\nWASD to move.\nSPACE to fire cannons.\nM to toggle mute.\nESCAPE to pause.", skin);
+
+        uiTable.add(instructions);
+
         stage.addActor(uiTable);
+    }
+
+    /**
+     * show() is called when the screen becomes visible.
+     */
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+
+        if (isPlayingMusic) music.play();
     }
 
     @Override
@@ -98,6 +114,14 @@ public class TitleScreen implements Screen {
         ScreenUtils.clear(0, 0.6f, 1, 1);
         stage.act();
         stage.draw();
+
+        timeSinceLastMusicToggle += delta;
+        if (Gdx.input.isKeyPressed(Input.Keys.M) && timeSinceLastMusicToggle >= 0.5f) {
+            timeSinceLastMusicToggle = 0.0f;
+            isPlayingMusic = !isPlayingMusic;
+            if (isPlayingMusic) music.play();
+            else music.pause();
+        }
     }
 
     @Override
@@ -114,11 +138,13 @@ public class TitleScreen implements Screen {
     public void resume() {}
 
     @Override
-    public void hide() {}
+    public void hide() {
+        music.pause();
+    }
 
     @Override
     public void dispose() {
-        batch.dispose();
+        music.dispose();
         skin.dispose();
         atlas.dispose();
     }
