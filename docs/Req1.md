@@ -41,7 +41,7 @@ The game should be playable by visitors on a university open day do that they ha
 |UR_INSPIRATIONAL|The game should have an inspirational effect on the player, compelling them to pursue computing themselves|Shall||
 |UR_FUN|The player should leave the game with a positive mindset|Shall|The open|
 |UR_WIN|The player should be able to achieve a predefined condition within the game which triggers a win|Shall||
-|UR_SOUND|The player will be able to hear music and sound effects which relate to the actions taking place on screen.|Should|The game will be played in an open day environment, liekly with lots of background noise and people talking, as a result of this it may be preferable to play without game sound|
+|UR_SOUND|The player will be able to hear music and sound effects which relate to the actions taking place on screen.|Should|The game will be played in an open day environment, likely with lots of background noise and people talking, as a result of this it may be preferable to play without game sound|
 |UR_GOLD|The player ship should be able to earn gold throughout the course of the game|Shall||
 ### System Requirements
 
