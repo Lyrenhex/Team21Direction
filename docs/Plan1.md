@@ -24,7 +24,7 @@ The collaboration tools used by the team includes:
 | - | - | - |
 |GitHub |We used GitHub as a file sharing tool and collaboration workspace to upload our code onto. This allows team members to easily access and edit each other’s work, as well as maintain source control.  ||
 |Discord  |We used discord as a tool for remote communication and used it to hold our sprint meetings. It was effective as all members could attend and were able to share their screens. |Slack, WhatsApp. |
-|Overleaf |Overleaf is a writing tool that allowed us to write in LaTeX markup. This allowed us to have a consistent style in our deliverables. |Google Docs, Overleaf. |
+|Typora | Typora is a markdown editor which has functionality for converting to PDF. This allowed us to have a consistent style in our deliverables. |Google Docs, Overleaf. We strongly considered using Overleaf which uses LaTeX markup, but there was a much steeper learning curve compared to Markdown. |
 
 b)
 
