@@ -10,8 +10,10 @@ import com.team21direction.pirategame.screens.WinScreen;
 public class PirateGame extends Game implements ApplicationListener {
 	/* Constants */
 	public final static String TITLE = "Pirate Game!";
-	public final static int WORLD_WIDTH = 3000;
-	public final static int WORLD_HEIGHT = 3000;
+
+	public final static int WORLD_WIDTH = 6000;
+	public final static int WORLD_HEIGHT = 6000;
+
 	public final static int SHIPS_PER_COLLEGE = 5;
 
 	/* Screens */

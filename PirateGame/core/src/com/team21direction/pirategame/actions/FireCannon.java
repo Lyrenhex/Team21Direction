@@ -12,7 +12,7 @@ public class FireCannon extends Action {
         College college = (College)actor;
         timeSinceLastCannon += delta;
         if (timeSinceLastCannon >= 2.0f + Math.random()) {
-            college.screen.fireCannon(college, new Vector2(college.screen.player.getX() - college.getX(), college.screen.player.getY() - college.getY()).nor().scl(2.0f));
+            college.screen.fireCannon(college, new Vector2(college.screen.player.getX() - college.getX(), college.screen.player.getY() - college.getY()).nor().scl(3.0f));
             timeSinceLastCannon = 0.0f;
         }
         return !college.isActive(); // only 'complete' the action when the College is defeated.
