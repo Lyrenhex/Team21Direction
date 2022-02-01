@@ -25,7 +25,7 @@ public class College extends GameActor {
      */
     public College(MainScreen screen, String name) {
         super(screen);
-        this.radius = 700;
+        this.radius = 350;
         this.name = name;
         collegeBases = new Texture[] {
                 new Texture(Gdx.files.internal("colleges/college-defeated-0.png")),
